@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "589217880278",
+    "project_id": "petlog-47350",
+    "storage_bucket": "petlog-47350.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:589217880278:android:42f596f1ec81b668cd5177",
+        "android_client_info": {
+          "package_name": "com.petlog.pet_log"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "589217880278-1re5b7m7gdbgc8oseue271cf17h48tvb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBzOqL850ZzD7f9ZYDqv8Kkz8iUiiRthRM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "589217880278-1re5b7m7gdbgc8oseue271cf17h48tvb.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
