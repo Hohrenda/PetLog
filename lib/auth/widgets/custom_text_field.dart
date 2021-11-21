@@ -8,7 +8,10 @@ class CustomTextField extends StatelessWidget {
   final TextEditingController controller;
 
   const CustomTextField(
-      {Key? key, required this.labelText, required this.controller, this.obscureText})
+      {Key? key,
+      required this.labelText,
+      required this.controller,
+      this.obscureText})
       : super(key: key);
 
   @override
@@ -19,6 +22,8 @@ class CustomTextField extends StatelessWidget {
       child: TextField(
         obscureText: obscureText ?? false,
         controller: controller,
+        style: GoogleFonts.montserrat(
+            fontWeight: FontWeight.normal, fontSize: 24.0),
         decoration: InputDecoration(
           enabledBorder: const UnderlineInputBorder(
             borderSide: BorderSide(color: Colors.black),
