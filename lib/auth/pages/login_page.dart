@@ -29,7 +29,7 @@ class _LoginPageState extends State<LoginPage> {
             mainAxisSize: MainAxisSize.max,
             children: <Widget>[
               const Center(
-                child: LogoWithText(logoText: 'PetLog', fontSizeText: 72.0),
+                child: LogoWithText(logoText: 'PetLog', fontSizeLogo: 72.0),
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 29.0, bottom: 50.0),
