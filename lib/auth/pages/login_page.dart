@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pet_log/auth/widgets/custom_text_field.dart';
-import 'package:pet_log/auth/widgets/cutom_button.dart';
+import 'package:pet_log/auth/widgets/custom_button.dart';
 import 'package:pet_log/auth/widgets/logo_with_text.dart';
 
 class LoginPage extends StatefulWidget {
