@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:pet_log/auth/pages/registration_page.dart';
 import 'package:pet_log/auth/widgets/custom_text_field.dart';
 import 'package:pet_log/auth/widgets/custom_button.dart';
 import 'package:pet_log/auth/widgets/logo_with_text.dart';
@@ -48,7 +49,7 @@ class _LoginPageState extends State<LoginPage> {
               Text(
                 'or',
                 style: GoogleFonts.roboto(
-                  color:  const Color.fromRGBO(0, 0, 0, 0.3),
+                  color: const Color.fromRGBO(0, 0, 0, 0.3),
                   fontSize: 24.0,
                   fontWeight: FontWeight.w500,
                 ),
@@ -95,7 +96,11 @@ class _LoginPageState extends State<LoginPage> {
               ),
               InkWell(
                 onTap: () => {
-
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const RegistrationPage()),
+                  )
                 },
                 child: Text(
                   'Sign up',
