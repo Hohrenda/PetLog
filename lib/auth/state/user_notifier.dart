@@ -13,9 +13,11 @@ class UserNotifier extends ChangeNotifier {
   StreamSubscription? _firebaseUserSubscription;
   StreamSubscription? _currentUserProfileSubscription;
 
-  LoggedUserModel? _currentUser = LoggedUserModel(null, null);
+  LoggedUserModel? _currentUser;
 
   LoggedUserModel? get currentUser => _currentUser;
+
+  FirebaseAuth firebaseAuth = FirebaseAuth.instance;
 
   set _currentUserProfile(UserProfile? userProfile) {
     if (userProfile?.userId == _currentUser?.firebaseUser?.uid) {
@@ -45,7 +47,6 @@ class UserNotifier extends ChangeNotifier {
   void _userProfileListener(UserProfile? profile) async {
     _currentUserProfile = profile;
     if (profile == null) {
-      print(profile?.email);
       final bool isProfileExist =
           await isUserProfileExist(profile?.userId.toString());
 
@@ -66,9 +67,6 @@ class UserNotifier extends ChangeNotifier {
   }
 
   Future<void> signInWithEmailPassword(String email, String password) async {
-    FirebaseAuth firebaseAuth = FirebaseAuth.instance;
-    print(firebaseAuth.currentUser);
-
     try {
       await firebaseAuth.signInWithEmailAndPassword(
           email: email, password: password);
@@ -78,9 +76,8 @@ class UserNotifier extends ChangeNotifier {
   }
 
   Future<void> registerNewUser(String email, String password) async {
-    FirebaseAuth auth = FirebaseAuth.instance;
     try {
-      await auth.createUserWithEmailAndPassword(
+      await firebaseAuth.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
@@ -97,7 +94,6 @@ class UserNotifier extends ChangeNotifier {
 
   Future<void> signInWithGoogle() async {
     try {
-      FirebaseAuth auth = FirebaseAuth.instance;
       GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
 
       if (googleUser != null) {
@@ -109,7 +105,7 @@ class UserNotifier extends ChangeNotifier {
             idToken: googleSignInAuthentication.idToken,
           );
 
-          await auth.signInWithCredential(credential);
+          await firebaseAuth.signInWithCredential(credential);
         }
       }
     }
