@@ -58,7 +58,7 @@ class _MainPageState extends State<MainPage> {
       body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.only(top: 28.0),
-          child: AddPetButton(onTap: () => {  }),
+          child: AddPetButton(onTap: () => {}),
         ),
       ),
     );
