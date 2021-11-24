@@ -4,20 +4,20 @@ import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class AddPetButton extends StatelessWidget {
-  const AddPetButton({Key? key}) : super(key: key);
+  final VoidCallback onTap;
+
+  const AddPetButton({Key? key, required this.onTap}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () => {},
+      onTap: onTap,
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 27.0),
         child: Row(
           children: [
             Container(
-              decoration: const BoxDecoration(
-                color: Color.fromRGBO(196, 196, 196, 1),
-              ),
+              color: Color.fromRGBO(196, 196, 196, 1),
               width: 115.0,
               height: 92.0,
               child: const Center(
