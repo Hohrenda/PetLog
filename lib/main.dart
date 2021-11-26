@@ -2,7 +2,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:pet_log/auth/pages/login_page.dart';
 
-import 'main/widgets/pet_list_item.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -22,7 +21,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const PetListItem(namePet: 'namePet', breedPet: 'breedPet'),
+      home: const LoginPage(),
     );
   }
 }

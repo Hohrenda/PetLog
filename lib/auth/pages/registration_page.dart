@@ -28,7 +28,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisSize: MainAxisSize.max,
               children: <Widget>[
-                LogoWithText(logoText: 'Registration', fontSizeLogo: 52.0),
+                const LogoWithText(logoText: 'Registration', fontSizeLogo: 52.0),
                 Padding(
                   padding: const EdgeInsets.only(top: 59.0, bottom: 50.0),
                   child: CustomTextField(
