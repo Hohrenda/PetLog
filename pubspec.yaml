@@ -27,4 +27,5 @@ flutter:
   assets:
     - lib/assets/logo.svg
     - lib/assets/google_logo.svg
+    - lib/assets/dog_icon.svg
 
