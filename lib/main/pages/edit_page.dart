@@ -1,10 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pet_log/auth/widgets/custom_button.dart';
 import 'package:pet_log/auth/widgets/custom_text_field.dart';
 import 'package:pet_log/main/models/pet_model.dart';
-
+import 'package:pet_log/main/widgets/custom_drop_down.dart';
 
 class EditPage extends StatefulWidget {
   final bool isEdit;
@@ -25,6 +26,7 @@ class _EditPageState extends State<EditPage> {
   final TextEditingController dateController = TextEditingController();
   final TextEditingController colorController = TextEditingController();
   final TextEditingController commentsController = TextEditingController();
+
   DateTime selectedDate = DateTime.now();
 
   Future<void> _selectDate(BuildContext context) async {
@@ -36,8 +38,26 @@ class _EditPageState extends State<EditPage> {
     if (picked != null && picked != selectedDate) {
       setState(() {
         selectedDate = picked;
-        dateController.value = TextEditingValue(text: picked.toString());
+        dateController.value = TextEditingValue(
+            text:
+                '${picked.month.toString()}-${picked.day.toString()}-${picked.year.toString()}');
       });
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.isEdit) {
+      nameController.text = widget.petModel!.name;
+      typeController.text = widget.petModel!.type;
+      genderController.text = widget.petModel!.gender ?? '';
+      breedController.text = widget.petModel!.breed ?? '';
+      DateTime databaseDate = widget.petModel!.date;
+      dateController.text =
+          '${databaseDate.month.toString()}-${databaseDate.day.toString()}-${databaseDate.year.toString()}';
+      colorController.text = widget.petModel!.color ?? '';
+      commentsController.text = widget.petModel!.comments ?? '';
     }
   }
 
@@ -93,31 +113,36 @@ class _EditPageState extends State<EditPage> {
                     color: Color.fromRGBO(196, 196, 196, 1),
                     width: 200.0,
                     height: 160.0,
+                    child: Stack(
+                      children: [
+                        Center(
+                          child: SvgPicture.asset('lib/assets/dog_icon.svg'),
+                        ),
+                        Align(
+                          alignment: Alignment.bottomRight,
+                          child: Icon(
+                            Icons.add,
+                            size: 42.0,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                   Padding(
                     padding: const EdgeInsets.only(left: 12.0),
                     child: Column(
                       children: [
                         CustomTextField(
-                          labelText:
-                              widget.isEdit ? widget.petModel!.name : 'Name',
+                          hintText: 'Name',
                           controller: nameController,
                           width: 140.0,
                         ),
                         Padding(
                           padding:
                               const EdgeInsets.only(top: 20.0, bottom: 20.0),
-                          child: CustomTextField(
-                            labelText: 'Type',
-                            controller: typeController,
-                            width: 140.0,
-                          ),
+                          child: CustomDropDown(),
                         ),
-                        CustomTextField(
-                          labelText: 'Gender',
-                          controller: genderController,
-                          width: 140.0,
-                        ),
+                        CustomDropDown(),
                       ],
                     ),
                   ),
@@ -143,10 +168,9 @@ class _EditPageState extends State<EditPage> {
                 child: Column(
                   children: [
                     CustomTextField(
-                        labelText: widget.isEdit
-                            ? (widget.petModel!.breed ?? '')
-                            : 'Breed',
-                        controller: breedController),
+                      hintText: 'Breed',
+                      controller: breedController,
+                    ),
                     Padding(
                       padding: const EdgeInsets.only(
                         top: 28.0,
@@ -156,28 +180,25 @@ class _EditPageState extends State<EditPage> {
                         onTap: () => _selectDate(context),
                         child: AbsorbPointer(
                           child: CustomTextField(
-                              labelText: widget.isEdit
-                                  ? widget.petModel!.date.toString()
-                                  : 'Date',
-                              controller: dateController),
+                            hintText: 'Date',
+                            controller: dateController,
+                          ),
                         ),
                       ),
                     ),
                     CustomTextField(
-                        labelText: widget.isEdit
-                            ? (widget.petModel!.color ?? '')
-                            : 'Color',
-                        controller: colorController),
+                      hintText: 'Color',
+                      controller: colorController,
+                    ),
                     Padding(
                       padding: const EdgeInsets.only(
                         top: 28.0,
                         bottom: 50.0,
                       ),
                       child: CustomTextField(
-                          labelText: widget.isEdit
-                              ? (widget.petModel!.comments ?? '')
-                              : 'Comments',
-                          controller: commentsController),
+                        hintText: 'Comments',
+                        controller: commentsController,
+                      ),
                     ),
                   ],
                 ),
