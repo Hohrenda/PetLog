@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class CustomDropDown extends StatefulWidget {
-  const CustomDropDown({Key? key}) : super(key: key);
+  final List<String> items;
+
+  const CustomDropDown({Key? key, required this.items}) : super(key: key);
 
   @override
   _CustomDropDownState createState() => _CustomDropDownState();
@@ -42,8 +44,7 @@ class _CustomDropDownState extends State<CustomDropDown> {
             dropdownValue = newValue!;
           });
         },
-        items: <String>['Dog', 'Cat', 'Turtle', 'Pig']
-            .map<DropdownMenuItem<String>>((String value) {
+        items: widget.items.map<DropdownMenuItem<String>>((String value) {
           return DropdownMenuItem<String>(
             value: value,
             child: Padding(

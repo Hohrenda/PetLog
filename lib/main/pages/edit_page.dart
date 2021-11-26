@@ -140,9 +140,11 @@ class _EditPageState extends State<EditPage> {
                         Padding(
                           padding:
                               const EdgeInsets.only(top: 20.0, bottom: 20.0),
-                          child: CustomDropDown(),
+                          child: CustomDropDown(
+                              items: <String>['Dog', 'Cat', 'Turtle', 'Pig']),
                         ),
-                        CustomDropDown(),
+                        CustomDropDown(
+                            items: <String>['Male', 'Female', 'Other']),
                       ],
                     ),
                   ),
