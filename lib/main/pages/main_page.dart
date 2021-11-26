@@ -4,6 +4,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pet_log/main/widgets/add_pet_button.dart';
 
+import 'edit_page.dart';
+
 class MainPage extends StatefulWidget {
   const MainPage({Key? key}) : super(key: key);
 
@@ -17,6 +19,7 @@ class _MainPageState extends State<MainPage> {
     return Scaffold(
       appBar: AppBar(
         elevation: 0.0,
+        toolbarHeight: 66.0,
         actions: <Widget>[
           Padding(
             padding: const EdgeInsets.only(right: 12.0),
@@ -58,7 +61,16 @@ class _MainPageState extends State<MainPage> {
       body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.only(top: 28.0),
-          child: AddPetButton(onTap: () => {}),
+          child: AddPetButton(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => EditPage(isEdit: false),
+                ),
+              );
+            },
+          ),
         ),
       ),
     );
