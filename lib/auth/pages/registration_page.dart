@@ -1,8 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:pet_log/auth/state/user_notifier.dart';
 import 'package:pet_log/auth/widgets/custom_button.dart';
 import 'package:pet_log/auth/widgets/custom_text_field.dart';
 import 'package:pet_log/auth/widgets/logo_with_text.dart';
+import 'package:provider/provider.dart';
 
 class RegistrationPage extends StatefulWidget {
   const RegistrationPage({Key? key}) : super(key: key);
@@ -18,6 +20,8 @@ class _RegistrationPageState extends State<RegistrationPage> {
 
   @override
   Widget build(BuildContext context) {
+    final userNotifier = Provider.of<UserNotifier>(context, listen: false);
+
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(
@@ -50,7 +54,12 @@ class _RegistrationPageState extends State<RegistrationPage> {
                   ),
                 ),
                 CustomButton(
-                    onPressed: () => {}, buttonText: 'Sign up', fontSize: 30.0),
+                    onPressed: () async => {
+                          await userNotifier.registerNewUser(
+                              emailController.text, passwordController.text)
+                        },
+                    buttonText: 'Sign up',
+                    fontSize: 30.0),
               ],
             ),
           ),
