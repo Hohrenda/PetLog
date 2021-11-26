@@ -34,10 +34,10 @@ class _LoginPageState extends State<LoginPage> {
               Padding(
                 padding: const EdgeInsets.only(top: 29.0, bottom: 50.0),
                 child: CustomTextField(
-                    labelText: 'email', controller: emailController),
+                    hintText: 'email', controller: emailController),
               ),
               CustomTextField(
-                  labelText: 'password',
+                  hintText: 'password',
                   controller: passwordController,
                   obscureText: true),
               Padding(
