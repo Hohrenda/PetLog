@@ -45,10 +45,13 @@ class PetListItem extends StatelessWidget {
                     children: [
                       Row(
                         children: [
-                          const Icon(
-                            Icons.folder_shared_outlined,
-                            size: 28.0,
-                            color: Colors.black,
+                          IconButton(
+                            icon: const Icon(
+                              Icons.folder_shared_outlined,
+                              size: 28.0,
+                              color: Colors.black,
+                            ),
+                            onPressed: () {},
                           ),
                           Text(
                             namePet,
@@ -62,10 +65,13 @@ class PetListItem extends StatelessWidget {
                       ),
                       Row(
                         children: [
-                          const Icon(
-                            Icons.pets,
-                            size: 28.0,
-                            color: Colors.black,
+                          IconButton(
+                            icon: const Icon(
+                              Icons.pets,
+                              size: 28.0,
+                              color: Colors.black,
+                            ),
+                            onPressed: () {},
                           ),
                           Text(
                             breedPet,
@@ -81,16 +87,22 @@ class PetListItem extends StatelessWidget {
                   ),
                   Column(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: const [
-                      Icon(
-                        Icons.edit,
-                        size: 28.0,
-                        color: Colors.black,
+                    children: [
+                      IconButton(
+                        icon: const Icon(
+                          Icons.edit,
+                          size: 28.0,
+                          color: Colors.black,
+                        ),
+                        onPressed: () {},
                       ),
-                      Icon(
-                        Icons.restore_from_trash_outlined,
-                        size: 28.0,
-                        color: Colors.black,
+                      IconButton(
+                        icon: const Icon(
+                          Icons.restore_from_trash_outlined,
+                          size: 28.0,
+                          color: Colors.black,
+                        ),
+                        onPressed: () {},
                       ),
                     ],
                   ),
