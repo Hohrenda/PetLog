@@ -6,25 +6,30 @@ import 'package:google_fonts/google_fonts.dart';
 class PetListItem extends StatelessWidget {
   final String namePet;
   final String breedPet;
+  final String imageUrl;
+  final VoidCallback onEdit;
+  final VoidCallback onDelete;
 
-  //final Image imagePet;
-
-  const PetListItem({Key? key, required this.namePet, required this.breedPet})
-      : super(key: key);
+  const PetListItem({
+    Key? key,
+    required this.namePet,
+    required this.breedPet,
+    required this.imageUrl,
+    required this.onEdit,
+    required this.onDelete,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 27.0),
+      padding: const EdgeInsets.symmetric(horizontal: 27.0, vertical: 100),
       child: Row(
         children: [
-          Container(
-            decoration: BoxDecoration(
-              border: Border.all(color: const Color.fromRGBO(196, 196, 196, 1)),
-              color: Colors.grey,
+          Material(
+            child: Image.network(
+              imageUrl,
+              height: 114.0,
             ),
-            width: 115.0,
-            height: 92.0,
           ),
           Container(
             decoration: BoxDecoration(
@@ -32,26 +37,24 @@ class PetListItem extends StatelessWidget {
                     Border.all(color: const Color.fromRGBO(196, 196, 196, 1)),
                 color: Colors.white),
             width: 221.0,
-            height: 92.0,
+            height: 114.0,
             child: Padding(
               padding:
                   const EdgeInsets.symmetric(vertical: 8.0, horizontal: 9.0),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Row(
                         children: [
-                          IconButton(
-                            icon: const Icon(
-                              Icons.folder_shared_outlined,
-                              size: 28.0,
-                              color: Colors.black,
-                            ),
-                            onPressed: () {},
+                          const Icon(
+                            Icons.folder_shared_outlined,
+                            size: 28.0,
+                            color: Colors.black,
                           ),
                           Text(
                             namePet,
@@ -65,13 +68,10 @@ class PetListItem extends StatelessWidget {
                       ),
                       Row(
                         children: [
-                          IconButton(
-                            icon: const Icon(
-                              Icons.pets,
-                              size: 28.0,
-                              color: Colors.black,
-                            ),
-                            onPressed: () {},
+                          const Icon(
+                            Icons.pets,
+                            size: 28.0,
+                            color: Colors.black,
                           ),
                           Text(
                             breedPet,
@@ -86,7 +86,6 @@ class PetListItem extends StatelessWidget {
                     ],
                   ),
                   Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       IconButton(
                         icon: const Icon(
@@ -94,7 +93,7 @@ class PetListItem extends StatelessWidget {
                           size: 28.0,
                           color: Colors.black,
                         ),
-                        onPressed: () {},
+                        onPressed: onEdit,
                       ),
                       IconButton(
                         icon: const Icon(
@@ -102,7 +101,7 @@ class PetListItem extends StatelessWidget {
                           size: 28.0,
                           color: Colors.black,
                         ),
-                        onPressed: () {},
+                        onPressed: onDelete,
                       ),
                     ],
                   ),

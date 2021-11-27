@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:pet_log/auth/pages/login_page.dart';
 
 
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -21,7 +22,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const LoginPage(),
+      home:  const LoginPage(),
     );
   }
 }

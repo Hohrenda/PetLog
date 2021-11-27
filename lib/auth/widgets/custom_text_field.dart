@@ -6,20 +6,23 @@ class CustomTextField extends StatelessWidget {
   final bool? obscureText;
   final String labelText;
   final TextEditingController controller;
+  final String? Function(String?)? validator;
 
-  const CustomTextField(
-      {Key? key,
-      required this.labelText,
-      required this.controller,
-      this.obscureText})
-      : super(key: key);
+  const CustomTextField({
+    Key? key,
+    required this.labelText,
+    required this.controller,
+    this.obscureText,
+    this.validator,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
       width: 314.0,
       height: 40.0,
-      child: TextField(
+      child: TextFormField(
+        validator: validator,
         obscureText: obscureText ?? false,
         controller: controller,
         style: GoogleFonts.montserrat(
@@ -27,6 +30,9 @@ class CustomTextField extends StatelessWidget {
         decoration: InputDecoration(
           enabledBorder: const UnderlineInputBorder(
             borderSide: BorderSide(color: Colors.black),
+          ),
+          focusedBorder: const UnderlineInputBorder(
+            borderSide: BorderSide(color: Colors.cyan),
           ),
           hintText: labelText,
           hintStyle: GoogleFonts.montserrat(
