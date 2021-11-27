@@ -41,9 +41,9 @@ class PetRepository {
     }
   }
 
-  Stream<List<PetModel>>? getAllPets(String userId) {
+  Future<Stream<List<PetModel>>?> getAllPets(String userId) async {
     try {
-      return collectionPath.where('ownerId', isEqualTo: userId).snapshots().map(
+      return await collectionPath.where('ownerId', isEqualTo: userId).snapshots().map(
           (querySnapshot) => querySnapshot.docs
               .map((doc) => PetModel.fromDocument(doc))
               .toList());

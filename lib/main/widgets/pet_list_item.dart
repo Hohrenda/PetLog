@@ -2,19 +2,16 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:pet_log/main/models/pet_model.dart';
 
 class PetListItem extends StatelessWidget {
-  final String namePet;
-  final String breedPet;
-  final String imageUrl;
+  final PetModel petModel;
   final VoidCallback onEdit;
   final VoidCallback onDelete;
 
   const PetListItem({
     Key? key,
-    required this.namePet,
-    required this.breedPet,
-    required this.imageUrl,
+    required this.petModel,
     required this.onEdit,
     required this.onDelete,
   }) : super(key: key);
@@ -22,12 +19,12 @@ class PetListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 27.0, vertical: 100),
+      padding: const EdgeInsets.symmetric(horizontal: 27.0, vertical: 10.0),
       child: Row(
         children: [
           Material(
             child: Image.network(
-              imageUrl,
+              petModel.imgUrl ?? 'https://fiverr-res.cloudinary.com/images/q_auto,f_auto/gigs/142254553/original/1e2ee54a4a189717e267e7110319f4b64e674a71/draw-an-avatar-portrait-cartoon-form-your-pet.png',
               height: 114.0,
             ),
           ),
@@ -57,7 +54,7 @@ class PetListItem extends StatelessWidget {
                             color: Colors.black,
                           ),
                           Text(
-                            namePet,
+                            petModel.name,
                             style: GoogleFonts.montserrat(
                               fontSize: 25.0,
                               fontWeight: FontWeight.w500,
@@ -74,7 +71,7 @@ class PetListItem extends StatelessWidget {
                             color: Colors.black,
                           ),
                           Text(
-                            breedPet,
+                            petModel.breed ?? ' ',
                             style: GoogleFonts.montserrat(
                               fontSize: 15.0,
                               fontWeight: FontWeight.w600,

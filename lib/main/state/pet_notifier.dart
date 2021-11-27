@@ -12,7 +12,7 @@ class PetNotifier extends ChangeNotifier {
 
   Future<void> loadInitialData(String userId) async {
     try {
-      _petStream = petRepository.getAllPets(userId);
+      _petStream = await petRepository.getAllPets(userId);
     } catch (error) {
       print(error);
     }

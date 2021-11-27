@@ -4,10 +4,11 @@ class PetModel {
   final String? id;
   final String ownerId;
   final String name;
+  final String? imgUrl;
   final String type;
   final String? gender;
   final String? breed;
-  final DateTime date;
+  final Timestamp date;
   final String? color;
   final String? comments;
 
@@ -18,6 +19,7 @@ class PetModel {
     required this.type,
     required this.date,
     this.gender,
+    this.imgUrl,
     this.breed,
     this.color,
     this.comments,
@@ -28,6 +30,7 @@ class PetModel {
       id: id,
       ownerId: json['ownerId'],
       name: json['name'],
+      imgUrl: json['imgUrl'],
       type: json['type'],
       date: json['date'],
       gender: json['gender'],
@@ -41,6 +44,7 @@ class PetModel {
     return {
       'ownerId': ownerId,
       'name': name,
+      'imgUrl': imgUrl,
       'type': type,
       'date': date,
       'gender': gender,
@@ -57,11 +61,12 @@ class PetModel {
   PetModel copyWith({
     String? id,
     String? ownerId,
+    String? imgUrl,
     String? name,
     String? type,
     String? gender,
     String? breed,
-    DateTime? date,
+    Timestamp? date,
     String? color,
     String? comments,
   }) {
@@ -69,6 +74,7 @@ class PetModel {
       id: id ?? this.id,
       ownerId: ownerId ?? this.ownerId,
       name: name ?? this.name,
+      imgUrl: imgUrl ?? this.imgUrl,
       type: type ?? this.type,
       gender: gender ?? this.gender,
       breed: breed ?? this.breed,

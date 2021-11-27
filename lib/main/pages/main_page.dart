@@ -4,7 +4,10 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pet_log/auth/pages/login_page.dart';
 import 'package:pet_log/auth/state/user_notifier.dart';
+import 'package:pet_log/main/models/pet_model.dart';
+import 'package:pet_log/main/state/pet_notifier.dart';
 import 'package:pet_log/main/widgets/add_pet_button.dart';
+import 'package:pet_log/main/widgets/pet_list_item.dart';
 import 'package:provider/provider.dart';
 
 import 'edit_page.dart';
@@ -17,11 +20,22 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
+  UserNotifier? userNotifier;
+  PetNotifier? petNotifier;
+
+  @override
+  void initState() {
+    super.initState();
+    userNotifier = Provider.of<UserNotifier>(context, listen: false);
+    petNotifier = Provider.of<PetNotifier>(context, listen: false);
+
+    print(userNotifier!.currentUser!.profile?.userId);
+
+    petNotifier!.loadInitialData('JZeC1zlWARhZkkuGEfAr3Zz8R333');
+  }
+
   @override
   Widget build(BuildContext context) {
-    UserNotifier userNotifier =
-        Provider.of<UserNotifier>(context, listen: false);
-
     return Scaffold(
       appBar: AppBar(
         elevation: 0.0,
@@ -35,7 +49,7 @@ class _MainPageState extends State<MainPage> {
                 color: Colors.black,
                 size: 36.0,
               ),
-              onPressed: () => userNotifier.logOut().then(
+              onPressed: () => userNotifier!.logOut().then(
                     (value) => Navigator.of(context).pushAndRemoveUntil(
                         MaterialPageRoute(
                           builder: (_) => const LoginPage(),
@@ -70,20 +84,62 @@ class _MainPageState extends State<MainPage> {
           fontWeight: FontWeight.bold,
         ),
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: EdgeInsets.only(top: 28.0),
-          child: AddPetButton(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => EditPage(isEdit: false),
-                ),
-              );
+      body: ListView(
+        shrinkWrap: true,
+        children: [
+          StreamBuilder<List<PetModel>>(
+            stream: petNotifier!.petStream,
+            builder: (context, snapshot) {
+              if (!snapshot.hasData) {
+                return const Padding(
+                  padding: EdgeInsets.symmetric(vertical: 20.0),
+                  child: Center(
+                    child: CircularProgressIndicator(
+                      strokeWidth: 2.0,
+                    ),
+                  ),
+                );
+              }
+
+              if (snapshot.hasData) {
+                return ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: snapshot.data?.length ?? 0,
+                  itemBuilder: (context, index) {
+                    return PetListItem(
+                      petModel: snapshot.data![index],
+                      onEdit: () => Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (_) => EditPage(
+                            isEdit: true,
+                            petModel: snapshot.data![index],
+                          ),
+                        ),
+                      ),
+                      onDelete: () =>
+                          petNotifier!.deletePet(snapshot.data![index]),
+                    );
+                  },
+                );
+              }
+
+              return const Text('');
             },
           ),
-        ),
+          Padding(
+            padding: const EdgeInsets.only(top: 10.0),
+            child: AddPetButton(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => EditPage(isEdit: false),
+                  ),
+                );
+              },
+            ),
+          ),
+        ],
       ),
     );
   }

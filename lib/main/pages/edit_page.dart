@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -57,7 +58,7 @@ class _EditPageState extends State<EditPage> {
       _typeController.text = widget.petModel!.type;
       _genderController.text = widget.petModel!.gender ?? '';
       _breedController.text = widget.petModel!.breed ?? '';
-      DateTime databaseDate = widget.petModel!.date;
+      DateTime databaseDate = widget.petModel!.date.toDate();
       _dateController.text =
           '${databaseDate.month.toString()}-${databaseDate.day.toString()}-${databaseDate.year.toString()}';
       _colorController.text = widget.petModel!.color ?? '';
@@ -126,7 +127,7 @@ class _EditPageState extends State<EditPage> {
                         Center(
                           child: SvgPicture.asset('lib/assets/dog_icon.svg'),
                         ),
-                        Align(
+                        const Align(
                           alignment: Alignment.bottomRight,
                           child: Icon(
                             Icons.add,
@@ -217,7 +218,15 @@ class _EditPageState extends State<EditPage> {
                 child: CustomButton(
                     onPressed: () => {
                           if (widget.isEdit)
-                            {}
+                            {
+                              _petNotifier.updatePet(widget.petModel!),
+                              Navigator.of(context).pushAndRemoveUntil(
+                                MaterialPageRoute(
+                                  builder: (_) => const MainPage(),
+                                ),
+                                    (route) => false,
+                              ),
+                            }
                           else
                             {
                               _petNotifier.addPet(
@@ -226,7 +235,7 @@ class _EditPageState extends State<EditPage> {
                                       .currentUser!.profile!.userId!,
                                   name: _nameController.text,
                                   type: _typeController.text,
-                                  date: _selectedDate,
+                                  date: Timestamp.fromDate(_selectedDate),
                                   gender: _genderController.text,
                                   breed: _breedController.text,
                                   color: _colorController.text,
