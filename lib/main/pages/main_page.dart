@@ -2,7 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:pet_log/auth/pages/login_page.dart';
+import 'package:pet_log/auth/state/user_notifier.dart';
 import 'package:pet_log/main/widgets/add_pet_button.dart';
+import 'package:provider/provider.dart';
 
 import 'edit_page.dart';
 
@@ -16,6 +19,9 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
+    UserNotifier userNotifier =
+        Provider.of<UserNotifier>(context, listen: false);
+
     return Scaffold(
       appBar: AppBar(
         elevation: 0.0,
@@ -29,7 +35,13 @@ class _MainPageState extends State<MainPage> {
                 color: Colors.black,
                 size: 36.0,
               ),
-              onPressed: () => {},
+              onPressed: () => userNotifier.logOut().then(
+                    (value) => Navigator.of(context).pushAndRemoveUntil(
+                        MaterialPageRoute(
+                          builder: (_) => const LoginPage(),
+                        ),
+                        (route) => false),
+                  ),
             ),
           )
         ],
