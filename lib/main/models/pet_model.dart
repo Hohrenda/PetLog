@@ -1,4 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class PetModel {
+  final String id;
+  final String ownerId;
   final String name;
   final String type;
   final String? gender;
@@ -8,6 +12,8 @@ class PetModel {
   final String? comments;
 
   const PetModel({
+    required this.id,
+    required this.ownerId,
     required this.name,
     required this.type,
     required this.date,
@@ -17,8 +23,10 @@ class PetModel {
     this.comments,
   });
 
-  factory PetModel.fromJson(Map<String, dynamic> json) {
+  factory PetModel.fromJson(Map<String, dynamic> json, String id) {
     return PetModel(
+      id: id,
+      ownerId: json['ownerId'],
       name: json['name'],
       type: json['type'],
       date: json['date'],
@@ -31,6 +39,7 @@ class PetModel {
 
   Map<String, dynamic> toJson() {
     return {
+      'ownerId': ownerId,
       'name': name,
       'type': type,
       'date': date,
@@ -39,5 +48,33 @@ class PetModel {
       'color': color,
       'comments': comments,
     };
+  }
+
+  factory PetModel.fromDocument(DocumentSnapshot doc) {
+    return PetModel.fromJson(doc.data() as Map<String, dynamic>, doc.id);
+  }
+
+  PetModel copyWith({
+    String? id,
+    String? ownerId,
+    String? name,
+    String? type,
+    String? gender,
+    String? breed,
+    DateTime? date,
+    String? color,
+    String? comments,
+  }) {
+    return PetModel(
+      id: id ?? this.id,
+      ownerId: ownerId ?? this.ownerId,
+      name: name ?? this.name,
+      type: type ?? this.type,
+      gender: gender ?? this.gender,
+      breed: breed ?? this.breed,
+      date: date ?? this.date,
+      color: color ?? this.color,
+      comments: comments ?? this.comments,
+    );
   }
 }
