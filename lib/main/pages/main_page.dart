@@ -25,13 +25,17 @@ class _MainPageState extends State<MainPage> {
 
   @override
   void initState() {
+    print('Init state');
     super.initState();
     userNotifier = Provider.of<UserNotifier>(context, listen: false);
     petNotifier = Provider.of<PetNotifier>(context, listen: false);
 
     print(userNotifier!.currentUser!.profile?.userId);
 
-    petNotifier!.loadInitialData('JZeC1zlWARhZkkuGEfAr3Zz8R333');
+    if(petNotifier!.petStream == null){
+      print('init data');
+      petNotifier!.loadInitialData('JZeC1zlWARhZkkuGEfAr3Zz8R333');
+    }
   }
 
   @override

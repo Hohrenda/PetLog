@@ -26,6 +26,7 @@ class PetRepository {
 
   Future<void> updatePet(PetModel petModel) async {
     try {
+      print(petModel.id);
       await collectionPath.doc(petModel.id).update(petModel.toJson());
     } catch (error) {
       print('Pet deletion error - $error');

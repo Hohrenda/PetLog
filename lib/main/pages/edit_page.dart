@@ -7,7 +7,6 @@ import 'package:pet_log/auth/state/user_notifier.dart';
 import 'package:pet_log/auth/widgets/custom_button.dart';
 import 'package:pet_log/auth/widgets/custom_text_field.dart';
 import 'package:pet_log/main/models/pet_model.dart';
-import 'package:pet_log/main/pages/main_page.dart';
 import 'package:pet_log/main/state/pet_notifier.dart';
 import 'package:pet_log/main/widgets/custom_drop_down.dart';
 import 'package:provider/provider.dart';
@@ -142,7 +141,8 @@ class _EditPageState extends State<EditPage> {
                     child: Column(
                       children: [
                         CustomTextField(
-                          validator: (text) => text!.isEmpty ? 'required' : null,
+                          validator: (text) =>
+                              text!.isEmpty ? 'required' : null,
                           hintText: 'Name',
                           controller: _nameController,
                           width: 140.0,
@@ -216,20 +216,28 @@ class _EditPageState extends State<EditPage> {
               ),
               Center(
                 child: CustomButton(
-                    onPressed: () => {
+                    onPressed: () async => {
                           if (widget.isEdit)
                             {
-                              _petNotifier.updatePet(widget.petModel!),
-                              Navigator.of(context).pushAndRemoveUntil(
-                                MaterialPageRoute(
-                                  builder: (_) => const MainPage(),
+                              await _petNotifier.updatePet(
+                                PetModel(
+                                  id: widget.petModel!.id,
+                                  ownerId: _userNotifier
+                                      .currentUser!.profile!.userId!,
+                                  name: _nameController.text,
+                                  type: _typeController.text,
+                                  date: Timestamp.fromDate(_selectedDate),
+                                  gender: _genderController.text,
+                                  breed: _breedController.text,
+                                  color: _colorController.text,
+                                  comments: _commentsController.text,
                                 ),
-                                    (route) => false,
                               ),
+                              Navigator.of(context).pop(),
                             }
                           else
                             {
-                              _petNotifier.addPet(
+                              await _petNotifier.addPet(
                                 PetModel(
                                   ownerId: _userNotifier
                                       .currentUser!.profile!.userId!,
@@ -242,12 +250,7 @@ class _EditPageState extends State<EditPage> {
                                   comments: _commentsController.text,
                                 ),
                               ),
-                              Navigator.of(context).pushAndRemoveUntil(
-                                MaterialPageRoute(
-                                  builder: (_) => const MainPage(),
-                                ),
-                                (route) => false,
-                              )
+                              Navigator.of(context).pop(),
                             }
                         },
                     buttonText: widget.isEdit ? 'Save' : 'Add pet',
