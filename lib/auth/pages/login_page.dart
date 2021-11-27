@@ -81,7 +81,6 @@ class _LoginPageState extends State<LoginPage> {
                           await _userNotifier!.signInWithEmailPassword(
                               _emailController.text, _passwordController.text);
                         }
-                        ;
                       },
                       buttonText: 'Login',
                       fontSize: 30.0),
