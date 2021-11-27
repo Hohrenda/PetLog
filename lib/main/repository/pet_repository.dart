@@ -10,7 +10,7 @@ class PetRepository {
 
   Future<void> createPet(PetModel petModel) async {
     try {
-      await collectionPath.add(petModel);
+      await collectionPath.add(petModel.toJson());
     } catch (error) {
       print('Pet creation error - $error');
     }

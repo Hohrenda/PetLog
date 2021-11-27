@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class PetModel {
-  final String id;
+  final String? id;
   final String ownerId;
   final String name;
   final String type;
@@ -12,7 +12,7 @@ class PetModel {
   final String? comments;
 
   const PetModel({
-    required this.id,
+    this.id,
     required this.ownerId,
     required this.name,
     required this.type,
