@@ -36,19 +36,19 @@ class _RegistrationPageState extends State<RegistrationPage> {
                 Padding(
                   padding: const EdgeInsets.only(top: 59.0, bottom: 50.0),
                   child: CustomTextField(
-                    labelText: 'email',
+                    hintText: 'email',
                     controller: emailController,
                   ),
                 ),
                 CustomTextField(
-                  labelText: 'password',
+                  hintText: 'password',
                   controller: passwordController,
                   obscureText: true,
                 ),
                 Padding(
                   padding: const EdgeInsets.only(top: 50.0, bottom: 59.0),
                   child: CustomTextField(
-                    labelText: 'confirm password',
+                    hintText: 'confirm password',
                     controller: confirmPasswordController,
                     obscureText: true,
                   ),

@@ -4,14 +4,14 @@ import 'package:google_fonts/google_fonts.dart';
 
 class CustomTextField extends StatelessWidget {
   final bool? obscureText;
-  final String labelText;
+  final String hintText;
   final TextEditingController controller;
   final double width;
   final double height;
 
   const CustomTextField({
     Key? key,
-    required this.labelText,
+    required this.hintText,
     required this.controller,
     this.obscureText,
     this.width = 314.0,
@@ -37,7 +37,7 @@ class CustomTextField extends StatelessWidget {
             ),
           ),
           contentPadding: const EdgeInsets.only(bottom: 3.0),
-          hintText: labelText,
+          hintText: hintText,
           hintStyle: GoogleFonts.montserrat(
             color: const Color.fromRGBO(150, 150, 150, 1),
             fontWeight: FontWeight.normal,
