@@ -1,8 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:pet_log/auth/state/user_notifier.dart';
 import 'package:pet_log/auth/widgets/custom_button.dart';
 import 'package:pet_log/auth/widgets/custom_text_field.dart';
 import 'package:pet_log/auth/widgets/logo_with_text.dart';
+import 'package:provider/provider.dart';
 
 class RegistrationPage extends StatefulWidget {
   const RegistrationPage({Key? key}) : super(key: key);
@@ -28,6 +30,8 @@ class _RegistrationPageState extends State<RegistrationPage> {
 
   @override
   Widget build(BuildContext context) {
+    final userNotifier = Provider.of<UserNotifier>(context, listen: false);
+
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(
@@ -46,14 +50,14 @@ class _RegistrationPageState extends State<RegistrationPage> {
                     padding: const EdgeInsets.only(top: 59.0, bottom: 50.0),
                     child: CustomTextField(
                       validator: (text) => text!.isEmpty ? 'required' : null,
-                      labelText: 'email',
+                      hintText: 'email',
                       controller: emailController,
                       obscureText: null,
                     ),
                   ),
                   CustomTextField(
                     validator: (text) => text!.isEmpty ? 'required' : null,
-                    labelText: 'password',
+                    hintText: 'password',
                     controller: passwordController,
                     obscureText: true,
                   ),
@@ -65,14 +69,17 @@ class _RegistrationPageState extends State<RegistrationPage> {
                         if(text!= passwordController.text) return 'Not Match';
                         return null;
                       },
-                      labelText: 'confirm password',
+                      hintText: 'confirm password',
                       controller: confirmPasswordController,
                       obscureText: true,
                     ),
                   ),
                   CustomButton(
-                      onPressed: () {
-                        if (!_formKey.currentState!.validate()) return;
+                      onPressed: () async {
+                        if (_formKey.currentState!.validate()) {
+                          await userNotifier.registerNewUser(
+                            emailController.text, passwordController.text);
+                        }
                       },
                       buttonText: 'Sign up',
                       fontSize: 30.0),

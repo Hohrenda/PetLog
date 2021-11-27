@@ -4,14 +4,18 @@ import 'package:google_fonts/google_fonts.dart';
 
 class CustomTextField extends StatelessWidget {
   final bool? obscureText;
-  final String labelText;
+  final String hintText;
   final TextEditingController controller;
   final String? Function(String?)? validator;
+  final double width;
+  final double height;
 
   const CustomTextField({
     Key? key,
-    required this.labelText,
+    required this.hintText,
     required this.controller,
+    this.width = 314.0,
+    this.height = 40.0,
     this.obscureText,
     this.validator,
   }) : super(key: key);
@@ -19,8 +23,8 @@ class CustomTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 314.0,
-      height: 40.0,
+      width: width,
+      height: height,
       child: TextFormField(
         validator: validator,
         obscureText: obscureText ?? false,
@@ -31,10 +35,8 @@ class CustomTextField extends StatelessWidget {
           enabledBorder: const UnderlineInputBorder(
             borderSide: BorderSide(color: Colors.black),
           ),
-          focusedBorder: const UnderlineInputBorder(
-            borderSide: BorderSide(color: Colors.cyan),
-          ),
-          hintText: labelText,
+          contentPadding: const EdgeInsets.only(bottom: 3.0),
+          hintText: hintText,
           hintStyle: GoogleFonts.montserrat(
               color: const Color.fromRGBO(150, 150, 150, 1),
               fontWeight: FontWeight.normal,

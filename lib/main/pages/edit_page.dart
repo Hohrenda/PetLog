@@ -133,6 +133,7 @@ class _EditPageState extends State<EditPage> {
                     child: Column(
                       children: [
                         CustomTextField(
+                          validator: (text) => text!.isEmpty ? 'required' : null,
                           hintText: 'Name',
                           controller: nameController,
                           width: 140.0,
