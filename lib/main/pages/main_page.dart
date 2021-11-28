@@ -105,7 +105,6 @@ class _MainPageState extends State<MainPage> {
                   ),
                 );
               }
-
               if (snapshot.hasData) {
                 return ListView.builder(
                   shrinkWrap: true,
