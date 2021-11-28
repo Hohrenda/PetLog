@@ -4,22 +4,27 @@ import 'package:google_fonts/google_fonts.dart';
 
 class CustomDropDown extends StatefulWidget {
   final List<String> items;
+  String? selectedValue;
+  final TextEditingController controller;
 
-  const CustomDropDown({Key? key, required this.items}) : super(key: key);
+  CustomDropDown({
+    Key? key,
+    required this.items,
+    required this.controller,
+    this.selectedValue,
+  }) : super(key: key);
 
   @override
   _CustomDropDownState createState() => _CustomDropDownState();
 }
 
 class _CustomDropDownState extends State<CustomDropDown> {
-  String? dropdownValue;
-
   @override
   Widget build(BuildContext context) {
     return Container(
       width: 140.0,
       child: DropdownButton<String>(
-        value: dropdownValue,
+        value: widget.selectedValue!.isEmpty ? null : widget.selectedValue,
         isExpanded: true,
         hint: Padding(
           padding: const EdgeInsets.only(bottom: 8.0),
@@ -41,7 +46,8 @@ class _CustomDropDownState extends State<CustomDropDown> {
         ),
         onChanged: (String? newValue) {
           setState(() {
-            dropdownValue = newValue!;
+            widget.controller.text = newValue!;
+            widget.selectedValue = newValue;
           });
         },
         items: widget.items.map<DropdownMenuItem<String>>((String value) {

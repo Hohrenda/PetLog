@@ -7,7 +7,7 @@ import 'package:pet_log/auth/state/user_notifier.dart';
 import 'package:pet_log/auth/widgets/custom_text_field.dart';
 import 'package:pet_log/auth/widgets/custom_button.dart';
 import 'package:pet_log/auth/widgets/logo_with_text.dart';
-import 'package:pet_log/pet/screens/pet_profile_screen.dart';
+import 'package:pet_log/main/pages/main_page.dart';
 import 'package:provider/provider.dart';
 
 class LoginPage extends StatefulWidget {
@@ -37,7 +37,7 @@ class _LoginPageState extends State<LoginPage> {
       Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
-            builder: (_) => const PetProfileScreen(),
+            builder: (_) => const MainPage(),
           ),
           (_) => false);
     }
@@ -77,7 +77,7 @@ class _LoginPageState extends State<LoginPage> {
                   padding: const EdgeInsets.only(top: 59.0, bottom: 15.0),
                   child: CustomButton(
                       onPressed: () async {
-                        if (!_formKey.currentState!.validate()) {
+                        if (_formKey.currentState!.validate()) {
                           await _userNotifier!.signInWithEmailPassword(
                               _emailController.text, _passwordController.text);
                         }
