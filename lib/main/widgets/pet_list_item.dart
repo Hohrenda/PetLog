@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pet_log/main/models/pet_model.dart';
 
@@ -22,16 +23,30 @@ class PetListItem extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 27.0, vertical: 10.0),
       child: Row(
         children: [
-          Material(
-            child: Image.network(
-              petModel.imgUrl ?? 'https://fiverr-res.cloudinary.com/images/q_auto,f_auto/gigs/142254553/original/1e2ee54a4a189717e267e7110319f4b64e674a71/draw-an-avatar-portrait-cartoon-form-your-pet.png',
-              height: 114.0,
-            ),
-          ),
+          petModel.imgUrl != null
+              ? Material(
+                  child: Image.network(
+                    petModel.imgUrl!,
+                    height: 114.0,
+                  ),
+                )
+              : Container(
+                  width: 115.0,
+                  height: 114.0,
+                  color: const Color.fromRGBO(196, 196, 196, 1),
+                  child: Stack(
+                    children: [
+                      Center(
+                        child: SvgPicture.asset('lib/assets/dog_icon.svg'),
+                      ),
+                    ],
+                  ),
+                ),
           Container(
             decoration: BoxDecoration(
-                border:
-                    Border.all(color: const Color.fromRGBO(196, 196, 196, 1)),
+                border: Border.all(
+                  color: const Color.fromRGBO(196, 196, 196, 1),
+                ),
                 color: Colors.white),
             width: 221.0,
             height: 114.0,
