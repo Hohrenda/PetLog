@@ -118,7 +118,7 @@ class _EditPageState extends State<EditPage> {
               Row(
                 children: [
                   Container(
-                    color: Color.fromRGBO(196, 196, 196, 1),
+                    color: const Color.fromRGBO(196, 196, 196, 1),
                     width: 200.0,
                     height: 160.0,
                     child: Stack(
@@ -147,13 +147,24 @@ class _EditPageState extends State<EditPage> {
                           controller: _nameController,
                           width: 140.0,
                         ),
-                        const Padding(
-                          padding: EdgeInsets.only(top: 20.0, bottom: 20.0),
+                        Padding(
+                          padding:
+                              const EdgeInsets.only(top: 20.0, bottom: 20.0),
                           child: CustomDropDown(
-                              items: <String>['Dog', 'Cat', 'Turtle', 'Pig']),
+                            controller: _typeController,
+                            selectedValue: _typeController.text,
+                            items: const <String>[
+                              'Dog',
+                              'Cat',
+                              'Turtle',
+                              'Pig'
+                            ],
+                          ),
                         ),
-                        const CustomDropDown(
-                            items: <String>['Male', 'Female', 'Other']),
+                        CustomDropDown(
+                            controller: _genderController,
+                            selectedValue: _genderController.text,
+                            items: const <String>['Male', 'Female', 'Other']),
                       ],
                     ),
                   ),
