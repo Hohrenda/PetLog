@@ -30,12 +30,13 @@ class _MainPageState extends State<MainPage> {
     userNotifier = Provider.of<UserNotifier>(context, listen: false);
     petNotifier = Provider.of<PetNotifier>(context, listen: false);
 
-    print(userNotifier!.currentUser!.profile?.userId);
-
-    if(petNotifier!.petStream == null){
-      print('init data');
-      petNotifier!.loadInitialData('JZeC1zlWARhZkkuGEfAr3Zz8R333');
-    }
+    userNotifier!.addListener(() {
+      if (petNotifier!.petStream == null &&
+          userNotifier!.currentUser!.profile != null) {
+        petNotifier!
+            .loadInitialData(userNotifier!.currentUser!.profile!.userId!);
+      }
+    });
   }
 
   @override
