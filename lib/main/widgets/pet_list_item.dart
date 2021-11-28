@@ -23,10 +23,11 @@ class PetListItem extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 27.0, vertical: 10.0),
       child: Row(
         children: [
-          petModel.imgUrl != null
+          petModel.imageUrl != null
               ? Material(
                   child: Image.network(
-                    petModel.imgUrl!,
+                    petModel.imageUrl!,
+                    width: 115.0,
                     height: 114.0,
                   ),
                 )

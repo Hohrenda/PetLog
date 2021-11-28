@@ -33,6 +33,8 @@ class _EditPageState extends State<EditPage> {
 
   DateTime _selectedDate = DateTime.now();
 
+  UserNotifier? _userNotifier;
+
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
         context: context,
@@ -52,6 +54,7 @@ class _EditPageState extends State<EditPage> {
   @override
   void initState() {
     super.initState();
+    _userNotifier = Provider.of<UserNotifier>(context, listen: false);
     if (widget.isEdit) {
       _nameController.text = widget.petModel!.name;
       _typeController.text = widget.petModel!.type;
@@ -65,10 +68,22 @@ class _EditPageState extends State<EditPage> {
     }
   }
 
+  PetModel createPetModel() {
+    return PetModel(
+      id: widget.petModel?.id,
+      ownerId: _userNotifier!.currentUser!.profile!.userId!,
+      name: _nameController.text,
+      type: _typeController.text,
+      date: Timestamp.fromDate(_selectedDate),
+      gender: _genderController.text,
+      breed: _breedController.text,
+      color: _colorController.text,
+      comments: _commentsController.text,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    UserNotifier _userNotifier =
-        Provider.of<UserNotifier>(context, listen: false);
     PetNotifier _petNotifier = Provider.of<PetNotifier>(context, listen: false);
 
     return Scaffold(
@@ -230,37 +245,12 @@ class _EditPageState extends State<EditPage> {
                     onPressed: () async => {
                           if (widget.isEdit)
                             {
-                              await _petNotifier.updatePet(
-                                PetModel(
-                                  id: widget.petModel!.id,
-                                  ownerId: _userNotifier
-                                      .currentUser!.profile!.userId!,
-                                  name: _nameController.text,
-                                  type: _typeController.text,
-                                  date: Timestamp.fromDate(_selectedDate),
-                                  gender: _genderController.text,
-                                  breed: _breedController.text,
-                                  color: _colorController.text,
-                                  comments: _commentsController.text,
-                                ),
-                              ),
+                              await _petNotifier.updatePet(createPetModel()),
                               Navigator.of(context).pop(),
                             }
                           else
                             {
-                              await _petNotifier.addPet(
-                                PetModel(
-                                  ownerId: _userNotifier
-                                      .currentUser!.profile!.userId!,
-                                  name: _nameController.text,
-                                  type: _typeController.text,
-                                  date: Timestamp.fromDate(_selectedDate),
-                                  gender: _genderController.text,
-                                  breed: _breedController.text,
-                                  color: _colorController.text,
-                                  comments: _commentsController.text,
-                                ),
-                              ),
+                              await _petNotifier.addPet(createPetModel()),
                               Navigator.of(context).pop(),
                             }
                         },
