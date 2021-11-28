@@ -83,4 +83,9 @@ class PetModel {
       comments: comments ?? this.comments,
     );
   }
+
+  @override
+  String toString() {
+    return '[id: $id, ownerId: $ownerId, name: $name, imageUrl: $imageUrl, type: $type, gender: $gender, breed: $breed, date: $date, color: $color, comments: $comments]';
+  }
 }
