@@ -77,7 +77,7 @@ class _LoginPageState extends State<LoginPage> {
                   padding: const EdgeInsets.only(top: 59.0, bottom: 15.0),
                   child: CustomButton(
                       onPressed: () async {
-                        if (!_formKey.currentState!.validate()) {
+                        if (_formKey.currentState!.validate()) {
                           await _userNotifier!.signInWithEmailPassword(
                               _emailController.text, _passwordController.text);
                         }
