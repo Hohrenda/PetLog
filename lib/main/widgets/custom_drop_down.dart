@@ -19,8 +19,6 @@ class CustomDropDown extends StatefulWidget {
 }
 
 class _CustomDropDownState extends State<CustomDropDown> {
-  String? dropdownValue;
-
   @override
   Widget build(BuildContext context) {
     return Container(
