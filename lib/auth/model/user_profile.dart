@@ -11,6 +11,11 @@ class UserProfile {
     this.email,
   });
 
+  @override
+  String toString(){
+    return '[userId: $userId, userName: $userName, email: $email]';
+  }
+
   Map<String, Object?> toJson() {
     return {
       'userName': userName,
