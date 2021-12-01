@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:pet_log/auth/pages/login_page.dart';
 import 'package:pet_log/auth/state/user_notifier.dart';
 import 'package:pet_log/main/models/pet_model.dart';
+import 'package:pet_log/main/pages/pet_page.dart';
 import 'package:pet_log/main/state/pet_notifier.dart';
 import 'package:pet_log/main/widgets/add_pet_button.dart';
 import 'package:pet_log/main/widgets/pet_list_item.dart';
@@ -110,18 +111,23 @@ class _MainPageState extends State<MainPage> {
                   shrinkWrap: true,
                   itemCount: snapshot.data?.length ?? 0,
                   itemBuilder: (context, index) {
-                    return PetListItem(
-                      petModel: snapshot.data![index],
-                      onEdit: () => Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (_) => EditPage(
-                            isEdit: true,
-                            petModel: snapshot.data![index],
+                    return InkWell(
+                      onTap: ()=>Navigator.of(context).push(
+                        MaterialPageRoute(builder: (_)=>const PetPage())
+                      ),
+                      child: PetListItem(
+                        petModel: snapshot.data![index],
+                        onEdit: () => Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (_) => EditPage(
+                              isEdit: true,
+                              petModel: snapshot.data![index],
+                            ),
                           ),
                         ),
+                        onDelete: () =>
+                            petNotifier!.deletePet(snapshot.data![index]),
                       ),
-                      onDelete: () =>
-                          petNotifier!.deletePet(snapshot.data![index]),
                     );
                   },
                 );

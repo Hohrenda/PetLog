@@ -1,0 +1,88 @@
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:pet_log/main/tabs/pet_tab.dart';
+
+class PetPage extends StatefulWidget {
+  const PetPage({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  _PetPageState createState() => _PetPageState();
+}
+
+class _PetPageState extends State<PetPage> {
+  int _selectedIndex = 0;
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+    pageController.jumpToPage(index);
+  }
+
+  PageController pageController = PageController();
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        elevation: 0.0,
+        toolbarHeight: 66.0,
+        leading: IconButton(
+          padding: const EdgeInsets.only(left: 8.0),
+          icon: const Icon(
+            Icons.arrow_back_rounded,
+            color: Colors.black,
+            size: 40.0,
+          ),
+          onPressed: () => Navigator.of(context).pop(),
+        ),
+        backgroundColor: const Color.fromRGBO(255, 120, 63, 1),
+        title: Text(
+          'Name',
+          style: GoogleFonts.montserrat(
+            color: Colors.black,
+            fontSize: 27.0,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+      ),
+        body: PageView(
+          controller: pageController,
+          children:  [
+            PetTab(),
+            Container(
+              color: Colors.black,
+            )
+          ],
+        ),
+      bottomNavigationBar: BottomNavigationBar(
+          items: const <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+              icon: Icon(Icons.pets),
+              label: 'Pet',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.image),
+              label: 'Gallery',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.calendar_today),
+              label: 'Calendar',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.medical_services),
+              label: 'Medicine',
+            ),
+          ],
+        currentIndex: _selectedIndex,
+        iconSize: 50.0,
+        unselectedItemColor: const Color.fromRGBO(131, 131, 131, 1),
+        selectedItemColor: Colors.amber[800],
+        onTap: _onItemTapped,
+      ),
+    );
+  }
+}
