@@ -50,6 +50,7 @@ class _PetPageState extends State<PetPage> {
         ),
       ),
         body: PageView(
+          physics: const NeverScrollableScrollPhysics(),
           controller: pageController,
           children:  [
             PetTab(),
