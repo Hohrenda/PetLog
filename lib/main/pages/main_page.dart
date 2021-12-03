@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -9,6 +10,7 @@ import 'package:pet_log/main/pages/pet_page.dart';
 import 'package:pet_log/main/state/pet_notifier.dart';
 import 'package:pet_log/main/widgets/add_pet_button.dart';
 import 'package:pet_log/main/widgets/pet_list_item.dart';
+import 'package:pet_log/popups/delete_element.dart';
 import 'package:provider/provider.dart';
 
 import 'edit_page.dart';
@@ -116,18 +118,26 @@ class _MainPageState extends State<MainPage> {
                         MaterialPageRoute(builder: (_)=>const PetPage())
                       ),
                       child: PetListItem(
-                        petModel: snapshot.data![index],
-                        onEdit: () => Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (_) => EditPage(
-                              isEdit: true,
-                              petModel: snapshot.data![index],
-                            ),
-                          ),
-                        ),
-                        onDelete: () =>
-                            petNotifier!.deletePet(snapshot.data![index]),
-                      ),
+                          petModel: snapshot.data![index],
+                          onEdit: () => Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (_) => EditPage(
+                                    isEdit: true,
+                                    petModel: snapshot.data![index],
+                                  ),
+                                ),
+                              ),
+                          onDelete: () => {
+                                showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return DeleteElement(
+                                      onDelete: () => petNotifier!
+                                          .deletePet(snapshot.data![index]),
+                                    );
+                                  },
+                                ),
+                              }),
                     );
                   },
                 );
