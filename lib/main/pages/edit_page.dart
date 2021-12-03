@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 import 'package:pet_log/auth/state/user_notifier.dart';
 import 'package:pet_log/auth/widgets/custom_button.dart';
 import 'package:pet_log/auth/widgets/custom_text_field.dart';
@@ -45,8 +46,8 @@ class _EditPageState extends State<EditPage> {
       setState(() {
         _selectedDate = picked;
         _dateController.value = TextEditingValue(
-            text:
-                '${picked.month.toString()}-${picked.day.toString()}-${picked.year.toString()}');
+          text: DateFormat('yyyy-MM-dd').format(picked),
+        );
       });
     }
   }
@@ -62,8 +63,7 @@ class _EditPageState extends State<EditPage> {
       _breedController.text = widget.petModel!.breed ?? '';
       DateTime databaseDate = widget.petModel!.date.toDate();
       _selectedDate = databaseDate;
-      _dateController.text =
-          '${databaseDate.month.toString()}-${databaseDate.day.toString()}-${databaseDate.year.toString()}';
+      _dateController.text = DateFormat('yyyy-MM-dd').format(databaseDate);
       _colorController.text = widget.petModel!.color ?? '';
       _commentsController.text = widget.petModel!.comments ?? '';
     }
