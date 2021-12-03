@@ -21,7 +21,7 @@ class _GalleryTabState extends State<GalleryTab> {
       children: [
         GalleryItem(
           onLongPress: () => {},
-          imageUrl: 'https://nikvesti.com/images/imageeditor/2021/9/16/229603/229603_1.jpg',
+          imageUrl: '',
         ),
         AddPhotoButton(onTap: () => {}),
       ],
