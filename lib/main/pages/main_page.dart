@@ -112,9 +112,14 @@ class _MainPageState extends State<MainPage> {
                   itemCount: snapshot.data?.length ?? 0,
                   itemBuilder: (context, index) {
                     return InkWell(
-                      onTap: ()=>Navigator.of(context).push(
-                        MaterialPageRoute(builder: (_)=>const PetPage())
-                      ),
+                      onTap: () => {
+                        petNotifier!.currentPet = snapshot.data![index],
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (_) => const PetPage(),
+                          ),
+                        ),
+                      },
                       child: PetListItem(
                         petModel: snapshot.data![index],
                         onEdit: () => Navigator.of(context).push(

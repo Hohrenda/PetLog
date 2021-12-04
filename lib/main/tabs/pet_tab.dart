@@ -12,6 +12,7 @@ class PetTab extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 27.0, horizontal: 12.0),
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         mainAxisSize: MainAxisSize.max,
         children: [
           Row(
@@ -19,21 +20,58 @@ class PetTab extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             mainAxisSize: MainAxisSize.max,
             children: [
-              Image.network('https://picsum.photos/250?image=9',width: 180.0,height: 180.0,),
+              Image.network(
+                'https://picsum.photos/250?image=9',
+                width: 180.0,
+                height: 180.0,
+              ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 mainAxisSize: MainAxisSize.max,
                 children: const [
-                  PetInfoItem(text: 'Name', iconInfo: Icons.folder_shared_outlined, fontSize: 25.0,),
-                  PetInfoItem(text: 'breed', iconInfo: Icons.pets, fontSize: 18.0,),
-                  PetInfoItem(text: 'Date of birth', iconInfo: Icons.calendar_today,fontSize: 14.0,),
-                  PetInfoItem(text: '7y 11m 5d', iconInfo: Icons.cake,fontSize: 14.0,),
+                  PetInfoItem(
+                    text: 'Name',
+                    iconInfo: Icons.folder_shared_outlined,
+                    fontSize: 25.0,
+                  ),
+                  PetInfoItem(
+                    text: 'breed',
+                    iconInfo: Icons.pets,
+                    fontSize: 18.0,
+                  ),
+                  PetInfoItem(
+                    text: 'Date of birth',
+                    iconInfo: Icons.calendar_today,
+                    fontSize: 14.0,
+                  ),
+                  PetInfoItem(
+                    text: '7y 11m 5d',
+                    iconInfo: Icons.cake,
+                    fontSize: 14.0,
+                  ),
                 ],
               )
             ],
           ),
-          PetEventItem(),
+          SizedBox(height: 80,),
+          Flexible(
+            child: GridView.count(
+              crossAxisCount: 3,
+              primary: false,
+              padding: const EdgeInsets.all(5),
+              crossAxisSpacing: 5,
+              mainAxisSpacing: 5,
+              children: const [
+                PetEventItem(),
+                PetEventItem(),
+                PetEventItem(),
+                PetEventItem(),
+                PetEventItem(),
+                PetEventItem(),
+              ],
+            ),
+          ),
         ],
       ),
     );
