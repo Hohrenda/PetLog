@@ -32,10 +32,11 @@ class CustomTextField extends StatelessWidget {
         style: GoogleFonts.montserrat(
             fontWeight: FontWeight.normal, fontSize: 24.0),
         decoration: InputDecoration(
+          errorStyle: TextStyle(fontSize: 14.0,height: 0.8),
           enabledBorder: const UnderlineInputBorder(
             borderSide: BorderSide(color: Colors.black),
           ),
-          contentPadding: const EdgeInsets.only(bottom: 3.0),
+          contentPadding: const EdgeInsets.only(bottom: 8.0),
           hintText: hintText,
           hintStyle: GoogleFonts.montserrat(
               color: const Color.fromRGBO(150, 150, 150, 1),

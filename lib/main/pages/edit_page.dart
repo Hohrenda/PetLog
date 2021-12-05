@@ -32,14 +32,14 @@ class _EditPageState extends State<EditPage> {
   final TextEditingController _colorController = TextEditingController();
   final TextEditingController _commentsController = TextEditingController();
 
-  DateTime _selectedDate = DateTime.now();
-
+  final _formKey = GlobalKey<FormState>();
+  DateTime? _selectedDate;
   UserNotifier? _userNotifier;
 
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
         context: context,
-        initialDate: _selectedDate,
+        initialDate: DateTime.now(),
         firstDate: DateTime(1901, 1),
         lastDate: DateTime(2100));
     if (picked != null && picked != _selectedDate) {
@@ -62,6 +62,7 @@ class _EditPageState extends State<EditPage> {
       _genderController.text = widget.petModel!.gender ?? '';
       _breedController.text = widget.petModel!.breed ?? '';
       DateTime databaseDate = widget.petModel!.date.toDate();
+      _selectedDate = databaseDate;
       _dateController.text = DateFormat('yyyy-MM-dd').format(databaseDate);
       _colorController.text = widget.petModel!.color ?? '';
       _commentsController.text = widget.petModel!.comments ?? '';
@@ -74,7 +75,7 @@ class _EditPageState extends State<EditPage> {
       ownerId: _userNotifier!.currentUser!.profile!.userId!,
       name: _nameController.text,
       type: _typeController.text,
-      date: Timestamp.fromDate(_selectedDate),
+      date: Timestamp.fromDate(_selectedDate!),
       gender: _genderController.text,
       breed: _breedController.text,
       color: _colorController.text,
@@ -126,138 +127,147 @@ class _EditPageState extends State<EditPage> {
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.only(left: 20.0, right: 16.0, top: 16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  Container(
-                    color: const Color.fromRGBO(196, 196, 196, 1),
-                    width: 200.0,
-                    height: 160.0,
-                    child: Stack(
-                      children: [
-                        Center(
-                          child: SvgPicture.asset('lib/assets/dog_icon.svg'),
-                        ),
-                        const Align(
-                          alignment: Alignment.bottomRight,
-                          child: Icon(
-                            Icons.add,
-                            size: 42.0,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 12.0),
-                    child: Column(
-                      children: [
-                        CustomTextField(
-                          validator: (text) =>
-                              text!.isEmpty ? 'required' : null,
-                          hintText: 'Name',
-                          controller: _nameController,
-                          width: 140.0,
-                        ),
-                        Padding(
-                          padding:
-                              const EdgeInsets.only(top: 20.0, bottom: 20.0),
-                          child: CustomDropDown(
-                            controller: _typeController,
-                            selectedValue: _typeController.text,
-                            items: const <String>[
-                              'Dog',
-                              'Cat',
-                              'Turtle',
-                              'Pig'
-                            ],
-                          ),
-                        ),
-                        CustomDropDown(
-                            controller: _genderController,
-                            selectedValue: _genderController.text,
-                            items: const <String>['Male', 'Female', 'Other']),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 20.0),
-                child: Text(
-                  'Main information',
-                  style: GoogleFonts.montserrat(
-                    fontSize: 35.0,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-              ),
-              const Divider(
-                color: Colors.black,
-                thickness: 1.0,
-                height: 0.0,
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 10.0, top: 20.0),
-                child: Column(
+          child: Form(
+            key: _formKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Row(
                   children: [
-                    CustomTextField(
-                      hintText: 'Breed',
-                      controller: _breedController,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(
-                        top: 28.0,
-                        bottom: 28.0,
-                      ),
-                      child: GestureDetector(
-                        onTap: () => _selectDate(context),
-                        child: AbsorbPointer(
-                          child: CustomTextField(
-                            hintText: 'Date',
-                            controller: _dateController,
+                    Container(
+                      color: const Color.fromRGBO(196, 196, 196, 1),
+                      width: 200.0,
+                      height: 160.0,
+                      child: Stack(
+                        children: [
+                          Center(
+                            child: SvgPicture.asset('lib/assets/dog_icon.svg'),
                           ),
-                        ),
+                          const Align(
+                            alignment: Alignment.bottomRight,
+                            child: Icon(
+                              Icons.add,
+                              size: 42.0,
+                            ),
+                          ),
+                        ],
                       ),
-                    ),
-                    CustomTextField(
-                      hintText: 'Color',
-                      controller: _colorController,
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(
-                        top: 28.0,
-                        bottom: 50.0,
-                      ),
-                      child: CustomTextField(
-                        hintText: 'Comments',
-                        controller: _commentsController,
+                      padding: const EdgeInsets.only(left: 12.0, top: 12.0),
+                      child: Column(
+                        children: [
+                          CustomTextField(
+                            validator: (text) =>
+                                text!.isEmpty ? 'required' : null,
+                            hintText: 'Name',
+                            controller: _nameController,
+                            width: 140.0,
+                          ),
+                          Padding(
+                            padding:
+                                const EdgeInsets.only(top: 8.0, bottom: 8.0),
+                            child: CustomDropDown(
+                              validator: (value) =>
+                                  value == null ? 'required' : null,
+                              controller: _typeController,
+                              selectedValue: _typeController.text,
+                              items: const <String>[
+                                'Dog',
+                                'Cat',
+                                'Turtle',
+                                'Pig'
+                              ],
+                            ),
+                          ),
+                          CustomDropDown(
+                              validator: (value) =>
+                                  value == null ? 'required' : null,
+                              controller: _genderController,
+                              selectedValue: _genderController.text,
+                              items: const <String>['Male', 'Female', 'Other']),
+                        ],
                       ),
                     ),
                   ],
                 ),
-              ),
-              Center(
-                child: CustomButton(
-                    onPressed: () async => {
-                          if (widget.isEdit)
-                            {
-                              await _petNotifier.updatePet(createPetModel()),
-                              Navigator.of(context).pop(),
-                            }
-                          else
-                            {
-                              await _petNotifier.addPet(createPetModel()),
-                              Navigator.of(context).pop(),
-                            }
-                        },
-                    buttonText: widget.isEdit ? 'Save' : 'Add pet',
-                    fontSize: 30.0),
-              ),
-            ],
+                Padding(
+                  padding: const EdgeInsets.only(top: 20.0),
+                  child: Text(
+                    'Main information',
+                    style: GoogleFonts.montserrat(
+                      fontSize: 35.0,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ),
+                const Divider(
+                  color: Colors.black,
+                  thickness: 1.0,
+                  height: 0.0,
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 10.0, top: 20.0),
+                  child: Column(
+                    children: [
+                      CustomTextField(
+                        hintText: 'Breed',
+                        controller: _breedController,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(
+                          top: 28.0,
+                          bottom: 28.0,
+                        ),
+                        child: GestureDetector(
+                          onTap: () => _selectDate(context),
+                          child: AbsorbPointer(
+                            child: CustomTextField(
+                              validator: (text) =>
+                                  text!.isEmpty ? 'required' : null,
+                              hintText: 'Date',
+                              controller: _dateController,
+                            ),
+                          ),
+                        ),
+                      ),
+                      CustomTextField(
+                        hintText: 'Color',
+                        controller: _colorController,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(
+                          top: 28.0,
+                          bottom: 50.0,
+                        ),
+                        child: CustomTextField(
+                          hintText: 'Comments',
+                          controller: _commentsController,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Center(
+                  child: CustomButton(
+                      onPressed: () async => {
+                            if (widget.isEdit)
+                              {
+                                await _petNotifier.updatePet(createPetModel()),
+                                Navigator.of(context).pop(),
+                              }
+                            else
+                              {
+                                await _petNotifier.addPet(createPetModel()),
+                                Navigator.of(context).pop(),
+                              }
+                          },
+                      buttonText: widget.isEdit ? 'Save' : 'Add pet',
+                      fontSize: 30.0),
+                ),
+              ],
+            ),
           ),
         ),
       ),
