@@ -51,7 +51,7 @@ class _PetPageState extends State<PetPage> {
         ),
         backgroundColor: const Color.fromRGBO(255, 120, 63, 1),
         title: Text(
-          'Name',
+          _petModel!.name,
           style: GoogleFonts.montserrat(
             color: Colors.black,
             fontSize: 27.0,
@@ -63,7 +63,7 @@ class _PetPageState extends State<PetPage> {
         physics: const NeverScrollableScrollPhysics(),
         controller: pageController,
         children: [
-          PetTab(),
+          PetTab(namePet: _petModel.name, breedPet: _petModel.type, dateBirthPet: _petModel.date.toDate(),),
           Container(
             color: Colors.black,
           )
