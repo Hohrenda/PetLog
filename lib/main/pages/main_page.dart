@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -6,7 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:pet_log/auth/pages/login_page.dart';
 import 'package:pet_log/auth/state/user_notifier.dart';
 import 'package:pet_log/main/models/pet_model.dart';
-import 'package:pet_log/main/pages/pet_page.dart';
+/*import 'package:pet_log/main/pages/pet_page.dart';*/
 import 'package:pet_log/main/state/pet_notifier.dart';
 import 'package:pet_log/main/widgets/add_pet_button.dart';
 import 'package:pet_log/main/widgets/pet_list_item.dart';
@@ -114,9 +113,9 @@ class _MainPageState extends State<MainPage> {
                   itemCount: snapshot.data?.length ?? 0,
                   itemBuilder: (context, index) {
                     return InkWell(
-                      onTap: ()=>Navigator.of(context).push(
+                      onTap: ()=>{}/*()=>Navigator.of(context).push(
                           MaterialPageRoute(builder: (_)=>const PetPage())
-                      ),
+                      )*/,
                       child: PetListItem(
                           petModel: snapshot.data![index],
                           onEdit: () => Navigator.of(context).push(
