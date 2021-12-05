@@ -58,11 +58,11 @@ class _MainPageState extends State<MainPage> {
               ),
               onPressed: () => userNotifier!.logOut().then(
                     (value) => Navigator.of(context).pushAndRemoveUntil(
-                    MaterialPageRoute(
-                      builder: (_) => const LoginPage(),
-                    ),
+                        MaterialPageRoute(
+                          builder: (_) => const LoginPage(),
+                        ),
                         (route) => false),
-              ),
+                  ),
             ),
           )
         ],
@@ -113,30 +113,35 @@ class _MainPageState extends State<MainPage> {
                   itemCount: snapshot.data?.length ?? 0,
                   itemBuilder: (context, index) {
                     return InkWell(
-                      onTap: ()=>Navigator.of(context).push(
-                          MaterialPageRoute(builder: (_)=>const PetPage())
-                      ),
+                      onTap: () => {
+                        petNotifier!.currentPet =snapshot.data![index],
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (_) => const PetPage(),
+                          ),
+                        ),
+                      },
                       child: PetListItem(
                           petModel: snapshot.data![index],
                           onEdit: () => Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (_) => EditPage(
-                                isEdit: true,
-                                petModel: snapshot.data![index],
+                                MaterialPageRoute(
+                                  builder: (_) => EditPage(
+                                    isEdit: true,
+                                    petModel: snapshot.data![index],
+                                  ),
+                                ),
                               ),
-                            ),
-                          ),
                           onDelete: () => {
-                            showDialog(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return DeleteElement(
-                                  onDelete: () => petNotifier!
-                                      .deletePet(snapshot.data![index]),
-                                );
-                              },
-                            ),
-                          }),
+                                showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return DeleteElement(
+                                      onDelete: () => petNotifier!
+                                          .deletePet(snapshot.data![index]),
+                                    );
+                                  },
+                                ),
+                              }),
                     );
                   },
                 );
