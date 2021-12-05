@@ -10,6 +10,7 @@ import 'package:pet_log/main/models/pet_model.dart';
 import 'package:pet_log/main/state/pet_notifier.dart';
 import 'package:pet_log/main/widgets/custom_drop_down.dart';
 import 'package:provider/provider.dart';
+import 'package:intl/intl.dart';
 
 class EditPage extends StatefulWidget {
   final bool isEdit;
@@ -45,8 +46,8 @@ class _EditPageState extends State<EditPage> {
       setState(() {
         _selectedDate = picked;
         _dateController.value = TextEditingValue(
-            text:
-                '${picked.month.toString()}-${picked.day.toString()}-${picked.year.toString()}');
+          text: DateFormat('yyyy-MM-dd').format(picked),
+        );
       });
     }
   }
@@ -61,8 +62,7 @@ class _EditPageState extends State<EditPage> {
       _genderController.text = widget.petModel!.gender ?? '';
       _breedController.text = widget.petModel!.breed ?? '';
       DateTime databaseDate = widget.petModel!.date.toDate();
-      _dateController.text =
-          '${databaseDate.month.toString()}-${databaseDate.day.toString()}-${databaseDate.year.toString()}';
+      _dateController.text = DateFormat('yyyy-MM-dd').format(databaseDate);
       _colorController.text = widget.petModel!.color ?? '';
       _commentsController.text = widget.petModel!.comments ?? '';
     }
