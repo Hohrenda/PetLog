@@ -3,7 +3,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:intl/intl.dart';
 import 'package:pet_log/auth/state/user_notifier.dart';
 import 'package:pet_log/auth/widgets/custom_button.dart';
 import 'package:pet_log/auth/widgets/custom_text_field.dart';
@@ -11,6 +10,7 @@ import 'package:pet_log/main/models/pet_model.dart';
 import 'package:pet_log/main/state/pet_notifier.dart';
 import 'package:pet_log/main/widgets/custom_drop_down.dart';
 import 'package:provider/provider.dart';
+import 'package:intl/intl.dart';
 
 class EditPage extends StatefulWidget {
   final bool isEdit;
@@ -250,29 +250,21 @@ class _EditPageState extends State<EditPage> {
                   ),
                 ),
                 Center(
-                  child: Padding(
-                    padding: const EdgeInsets.only(bottom: 18.0),
-                    child: CustomButton(
-                        onPressed: () async => {
-                              if (_formKey.currentState!.validate())
-                                {
-                                  if (widget.isEdit)
-                                    {
-                                      await _petNotifier
-                                          .updatePet(createPetModel()),
-                                      Navigator.of(context).pop(),
-                                    }
-                                  else
-                                    {
-                                      await _petNotifier
-                                          .addPet(createPetModel()),
-                                      Navigator.of(context).pop(),
-                                    }
-                                }
-                            },
-                        buttonText: widget.isEdit ? 'Save' : 'Add pet',
-                        fontSize: 30.0),
-                  ),
+                  child: CustomButton(
+                      onPressed: () async => {
+                            if (widget.isEdit)
+                              {
+                                await _petNotifier.updatePet(createPetModel()),
+                                Navigator.of(context).pop(),
+                              }
+                            else
+                              {
+                                await _petNotifier.addPet(createPetModel()),
+                                Navigator.of(context).pop(),
+                              }
+                          },
+                      buttonText: widget.isEdit ? 'Save' : 'Add pet',
+                      fontSize: 30.0),
                 ),
               ],
             ),

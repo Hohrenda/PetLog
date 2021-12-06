@@ -9,6 +9,7 @@ import 'package:pet_log/main/pages/pet_page.dart';
 import 'package:pet_log/main/state/pet_notifier.dart';
 import 'package:pet_log/main/widgets/add_pet_button.dart';
 import 'package:pet_log/main/widgets/pet_list_item.dart';
+import 'package:pet_log/popups/delete_element.dart';
 import 'package:provider/provider.dart';
 
 import 'edit_page.dart';
@@ -112,22 +113,35 @@ class _MainPageState extends State<MainPage> {
                   itemCount: snapshot.data?.length ?? 0,
                   itemBuilder: (context, index) {
                     return InkWell(
-                      onTap: ()=>Navigator.of(context).push(
-                        MaterialPageRoute(builder: (_)=>const PetPage())
-                      ),
-                      child: PetListItem(
-                        petModel: snapshot.data![index],
-                        onEdit: () => Navigator.of(context).push(
+                      onTap: () => {
+                        petNotifier!.currentPet =snapshot.data![index],
+                        Navigator.of(context).push(
                           MaterialPageRoute(
-                            builder: (_) => EditPage(
-                              isEdit: true,
-                              petModel: snapshot.data![index],
-                            ),
+                            builder: (_) => const PetPage(),
                           ),
                         ),
-                        onDelete: () =>
-                            petNotifier!.deletePet(snapshot.data![index]),
-                      ),
+                      },
+                      child: PetListItem(
+                          petModel: snapshot.data![index],
+                          onEdit: () => Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (_) => EditPage(
+                                    isEdit: true,
+                                    petModel: snapshot.data![index],
+                                  ),
+                                ),
+                              ),
+                          onDelete: () => {
+                                showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return DeleteElement(
+                                      onDelete: () => petNotifier!
+                                          .deletePet(snapshot.data![index]),
+                                    );
+                                  },
+                                ),
+                              }),
                     );
                   },
                 );

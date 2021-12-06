@@ -10,6 +10,8 @@ class PetNotifier extends ChangeNotifier {
 
   Stream<List<PetModel>>? get petStream => _petStream;
 
+  PetModel? currentPet;
+
   Future<void> loadInitialData(String userId) async {
     try {
       _petStream = await _petRepository.getAllPets(userId);
