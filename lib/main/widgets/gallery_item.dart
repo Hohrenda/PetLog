@@ -17,8 +17,6 @@ class GalleryItem extends StatelessWidget {
         fit: BoxFit.fill,
         child: Image.network(
           imageUrl!,
-          width: 115.0,
-          height: 115.0,
         ),
       ),
     );
