@@ -76,6 +76,7 @@ class _PetPageState extends State<PetPage> {
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.pets),
@@ -98,6 +99,10 @@ class _PetPageState extends State<PetPage> {
         iconSize: 50.0,
         unselectedItemColor: const Color.fromRGBO(131, 131, 131, 1),
         selectedItemColor: Colors.amber[800],
+        unselectedLabelStyle:
+            GoogleFonts.montserrat(fontSize: 16.0, fontWeight: FontWeight.w500),
+        selectedLabelStyle:
+            GoogleFonts.montserrat(fontSize: 16.0, fontWeight: FontWeight.w500),
         onTap: _onItemTapped,
       ),
     );
