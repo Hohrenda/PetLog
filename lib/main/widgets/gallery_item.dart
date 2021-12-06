@@ -13,10 +13,13 @@ class GalleryItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onLongPress: onLongPress,
-      child: Image.network(
-        imageUrl!,
-        width: 115.0,
-        height: 115.0,
+      child: FittedBox(
+        fit: BoxFit.fill,
+        child: Image.network(
+          imageUrl!,
+          width: 115.0,
+          height: 115.0,
+        ),
       ),
     );
   }

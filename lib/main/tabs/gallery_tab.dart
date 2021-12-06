@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:pet_log/main/widgets/add_photo_button.dart';
 import 'package:pet_log/main/widgets/gallery_item.dart';
+import 'package:pet_log/popups/delete_element.dart';
 
 class GalleryTab extends StatefulWidget {
   const GalleryTab({Key? key}) : super(key: key);
@@ -20,10 +22,21 @@ class _GalleryTabState extends State<GalleryTab> {
       mainAxisSpacing: 10.0,
       children: [
         GalleryItem(
-          onLongPress: () => {},
           imageUrl: '',
+          onLongPress: () => {
+            showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return DeleteElement(
+                  onDelete: () => {},
+                );
+              },
+            ),
+          },
         ),
-        AddPhotoButton(onTap: () => {}),
+        AddPhotoButton(
+          onTap: () => {},
+        ),
       ],
     );
   }
