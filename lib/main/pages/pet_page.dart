@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pet_log/main/models/pet_model.dart';
 import 'package:pet_log/main/state/pet_notifier.dart';
+import 'package:pet_log/main/tabs/gallery_tab.dart';
 import 'package:pet_log/main/tabs/pet_tab.dart';
 import 'package:provider/provider.dart';
 
@@ -68,9 +69,10 @@ class _PetPageState extends State<PetPage> {
             breedPet: _petModel.type,
             dateBirthPet: _petModel.date.toDate(),
           ),
+          GalleryTab(),
           Container(
             color: Colors.black,
-          )
+          ),
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
