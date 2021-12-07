@@ -4,7 +4,7 @@ class PetModel {
   final String? id;
   final String ownerId;
   final String name;
-  final String? imageUrl;
+  String? imageUrl;
   final String type;
   final String? gender;
   final String? breed;
@@ -12,7 +12,7 @@ class PetModel {
   final String? color;
   final String? comments;
 
-  const PetModel({
+   PetModel({
     this.id,
     required this.ownerId,
     required this.name,

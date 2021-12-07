@@ -43,6 +43,7 @@ class PetTab extends StatelessWidget {
                         petModel.imageUrl!,
                         width: 180.0,
                         height: 180.0,
+                        fit: BoxFit.cover,
                       ),
                     )
                   : Container(
