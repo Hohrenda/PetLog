@@ -1,22 +1,25 @@
+import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:pet_log/auth/state/user_notifier.dart';
 import 'package:pet_log/auth/widgets/custom_button.dart';
 import 'package:pet_log/auth/widgets/custom_text_field.dart';
 import 'package:pet_log/main/models/pet_model.dart';
 import 'package:pet_log/main/state/pet_notifier.dart';
+import 'package:pet_log/main/state/photo_notifier.dart';
 import 'package:pet_log/main/widgets/custom_drop_down.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
 
 class EditPage extends StatefulWidget {
   final bool isEdit;
-  final PetModel? petModel;
+  PetModel? petModel;
 
-  const EditPage({Key? key, required this.isEdit, this.petModel})
+  EditPage({Key? key, required this.isEdit, this.petModel })
       : super(key: key);
 
   @override
@@ -35,6 +38,8 @@ class _EditPageState extends State<EditPage> {
   final _formKey = GlobalKey<FormState>();
   DateTime? _selectedDate;
   UserNotifier? _userNotifier;
+  PhotoNotifier? _photoNotifier;
+  XFile? _imageFile;
 
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
@@ -55,7 +60,11 @@ class _EditPageState extends State<EditPage> {
   @override
   void initState() {
     super.initState();
+    _photoNotifier = Provider.of<PhotoNotifier>(context, listen: false);
     _userNotifier = Provider.of<UserNotifier>(context, listen: false);
+
+    _imageFile = _photoNotifier!.pickedFile;
+    widget.petModel = PetModel(name: '', ownerId: '', date: Timestamp.now(), type: '', );
     if (widget.isEdit) {
       _nameController.text = widget.petModel!.name;
       _typeController.text = widget.petModel!.type;
@@ -80,13 +89,13 @@ class _EditPageState extends State<EditPage> {
       breed: _breedController.text,
       color: _colorController.text,
       comments: _commentsController.text,
+      imageUrl: widget.petModel?.imageUrl,
     );
   }
 
   @override
   Widget build(BuildContext context) {
     PetNotifier _petNotifier = Provider.of<PetNotifier>(context, listen: false);
-
     return Scaffold(
       appBar: AppBar(
         elevation: 0.0,
@@ -142,13 +151,36 @@ class _EditPageState extends State<EditPage> {
                       child: Stack(
                         children: [
                           Center(
-                            child: SvgPicture.asset('lib/assets/dog_icon.svg'),
+                            child: widget.petModel?.imageUrl != null
+                                ? Image.network(
+                                    widget.petModel!.imageUrl!,
+                                    width: 200.0,
+                                    height: 160.0,
+                                    fit: BoxFit.cover,
+                                  )
+                                : _imageFile != null
+                                    ? Image.file(
+                                        File(_imageFile!.path),
+                                        width: 200.0,
+                                        height: 160.0,
+                                        fit: BoxFit.cover,
+                                      )
+                                    : SvgPicture.asset(
+                                        'lib/assets/dog_icon.svg'),
                           ),
-                          const Align(
+                          Align(
                             alignment: Alignment.bottomRight,
-                            child: Icon(
-                              Icons.add,
-                              size: 42.0,
+                            child: InkWell(
+                              child: const Icon(
+                                Icons.add,
+                                size: 42.0,
+                              ),
+                              onTap: () async {
+                                final temp = await _photoNotifier!.pickImage();
+                                setState(() {
+                                  _imageFile = temp;
+                                });
+                              },
                             ),
                           ),
                         ],
@@ -254,11 +286,29 @@ class _EditPageState extends State<EditPage> {
                       onPressed: () async => {
                             if (widget.isEdit)
                               {
+                                await _photoNotifier!.uploadImageToFirebase(
+                                  _imageFile!,
+                                  _userNotifier!.currentUser!.profile!.userId,
+                                  _nameController.text,
+                                  () {
+                                    widget.petModel!.imageUrl =
+                                        _photoNotifier!.imageUrl;
+                                  },
+                                ),
                                 await _petNotifier.updatePet(createPetModel()),
                                 Navigator.of(context).pop(),
                               }
                             else
                               {
+                                await _photoNotifier!.uploadImageToFirebase(
+                                  _imageFile!,
+                                  _userNotifier!.currentUser!.profile!.userId,
+                                  _nameController.text,
+                                  () {
+                                    widget.petModel!.imageUrl =
+                                        _photoNotifier!.imageUrl;
+                                  },
+                                ),
                                 await _petNotifier.addPet(createPetModel()),
                                 Navigator.of(context).pop(),
                               }

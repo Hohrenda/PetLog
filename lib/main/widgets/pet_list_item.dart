@@ -29,6 +29,7 @@ class PetListItem extends StatelessWidget {
                     petModel.imageUrl!,
                     width: 115.0,
                     height: 114.0,
+                    fit: BoxFit.cover,
                   ),
                 )
               : Container(
