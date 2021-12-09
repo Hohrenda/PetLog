@@ -19,8 +19,7 @@ class EditPage extends StatefulWidget {
   final bool isEdit;
   PetModel? petModel;
 
-  EditPage({Key? key, required this.isEdit, this.petModel })
-      : super(key: key);
+  EditPage({Key? key, required this.isEdit, this.petModel}) : super(key: key);
 
   @override
   _EditPageState createState() => _EditPageState();
@@ -64,7 +63,7 @@ class _EditPageState extends State<EditPage> {
     _userNotifier = Provider.of<UserNotifier>(context, listen: false);
 
     _imageFile = _photoNotifier!.pickedFile;
-    widget.petModel = PetModel(name: '', ownerId: '', date: Timestamp.now(), type: '', );
+
     if (widget.isEdit) {
       _nameController.text = widget.petModel!.name;
       _typeController.text = widget.petModel!.type;
@@ -75,6 +74,13 @@ class _EditPageState extends State<EditPage> {
       _dateController.text = DateFormat('yyyy-MM-dd').format(databaseDate);
       _colorController.text = widget.petModel!.color ?? '';
       _commentsController.text = widget.petModel!.comments ?? '';
+    } else {
+      widget.petModel = PetModel(
+        name: '',
+        ownerId: '',
+        date: Timestamp.now(),
+        type: '',
+      );
     }
   }
 
@@ -300,17 +306,19 @@ class _EditPageState extends State<EditPage> {
                               }
                             else
                               {
-                                if(_imageFile != null){
-                                  await _photoNotifier!.uploadImageToFirebase(
-                                    _imageFile!,
-                                    _userNotifier!.currentUser!.profile!.userId,
-                                    _nameController.text,
-                                        () {
-                                      widget.petModel!.imageUrl =
-                                          _photoNotifier!.imageUrl;
-                                    },
-                                  ),
-                                },
+                                if (_imageFile != null)
+                                  {
+                                    await _photoNotifier!.uploadImageToFirebase(
+                                      _imageFile!,
+                                      _userNotifier!
+                                          .currentUser!.profile!.userId,
+                                      _nameController.text,
+                                      () {
+                                        widget.petModel!.imageUrl =
+                                            _photoNotifier!.imageUrl;
+                                      },
+                                    ),
+                                  },
                                 await _petNotifier.addPet(createPetModel()),
                                 Navigator.of(context).pop(),
                               }
