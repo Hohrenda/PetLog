@@ -23,7 +23,7 @@ class PetModel {
     required this.date,
     this.gender,
     this.imageUrl,
-    this.galleryUrls,
+    this.galleryUrls = const [],
     this.breed,
     this.color,
     this.comments,

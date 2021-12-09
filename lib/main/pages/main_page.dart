@@ -32,13 +32,15 @@ class _MainPageState extends State<MainPage> {
     userNotifier = Provider.of<UserNotifier>(context, listen: false);
     petNotifier = Provider.of<PetNotifier>(context, listen: false);
 
-    userNotifier!.addListener(() {
-      if (petNotifier!.petStream == null &&
-          userNotifier!.currentUser!.profile != null) {
-        petNotifier!
-            .loadInitialData(userNotifier!.currentUser!.profile!.userId!);
-      }
-    });
+    userNotifier!.addListener(
+      () {
+        if (petNotifier!.petStream == null &&
+            userNotifier!.currentUser!.profile != null) {
+          petNotifier!
+              .loadInitialData(userNotifier!.currentUser!.profile!.userId!);
+        }
+      },
+    );
   }
 
   @override
@@ -114,7 +116,7 @@ class _MainPageState extends State<MainPage> {
                   itemBuilder: (context, index) {
                     return InkWell(
                       onTap: () => {
-                        petNotifier!.currentPet =snapshot.data![index],
+                        petNotifier!.currentPet = snapshot.data![index],
                         Navigator.of(context).push(
                           MaterialPageRoute(
                             builder: (_) => const PetPage(),
