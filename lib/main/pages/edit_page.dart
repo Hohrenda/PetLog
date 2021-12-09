@@ -64,7 +64,6 @@ class _EditPageState extends State<EditPage> {
     _userNotifier = Provider.of<UserNotifier>(context, listen: false);
 
     _imageFile = _photoNotifier!.pickedFile;
-    widget.petModel = PetModel(name: '', ownerId: '', date: Timestamp.now(), type: '', );
     if (widget.isEdit) {
       _nameController.text = widget.petModel!.name;
       _typeController.text = widget.petModel!.type;
@@ -75,6 +74,13 @@ class _EditPageState extends State<EditPage> {
       _dateController.text = DateFormat('yyyy-MM-dd').format(databaseDate);
       _colorController.text = widget.petModel!.color ?? '';
       _commentsController.text = widget.petModel!.comments ?? '';
+    } else {
+      widget.petModel = PetModel(
+        name: '',
+        ownerId: '',
+        date: Timestamp.now(),
+        type: '',
+      );
     }
   }
 
@@ -90,6 +96,7 @@ class _EditPageState extends State<EditPage> {
       color: _colorController.text,
       comments: _commentsController.text,
       imageUrl: widget.petModel?.imageUrl,
+      galleryUrls: widget.petModel?.galleryUrls,
     );
   }
 
