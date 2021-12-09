@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class PetModel {
@@ -33,7 +35,7 @@ class PetModel {
       ownerId: json['ownerId'],
       name: json['name'],
       imageUrl: json['imageUrl'],
-      galleryUrls: json['galleryUrls'],
+      galleryUrls: List.from(json['galleryUrls']),
       type: json['type'],
       date: json['date'],
       gender: json['gender'],
