@@ -42,8 +42,12 @@ class _GalleryTabState extends State<GalleryTab> {
             .snapshots(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            List<String> galleryUrls =
-                List.from(snapshot.data!.data()!['galleryUrls'] ?? []);
+            List<String> galleryUrls = _petNotifier.currentPet!.galleryUrls!;
+
+            if (galleryUrls.isNotEmpty && galleryUrls[0] == '') {
+              galleryUrls.removeLast();
+            }
+
             return Padding(
               padding: const EdgeInsets.all(17.0),
               child: GridView.builder(
@@ -53,7 +57,7 @@ class _GalleryTabState extends State<GalleryTab> {
                   crossAxisSpacing: 10.0,
                   mainAxisSpacing: 10.0,
                 ),
-                itemCount: galleryUrls.length + 1,
+                itemCount: galleryUrls.isEmpty ? 1 : galleryUrls.length + 1,
                 itemBuilder: (context, index) {
                   if (index != galleryUrls.length) {
                     return GalleryItem(
@@ -106,7 +110,7 @@ class _GalleryTabState extends State<GalleryTab> {
               ),
             );
           } else {
-            return CircularProgressIndicator();
+            return const CircularProgressIndicator();
           }
         });
   }
