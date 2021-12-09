@@ -300,15 +300,17 @@ class _EditPageState extends State<EditPage> {
                               }
                             else
                               {
-                                await _photoNotifier!.uploadImageToFirebase(
-                                  _imageFile!,
-                                  _userNotifier!.currentUser!.profile!.userId,
-                                  _nameController.text,
-                                  () {
-                                    widget.petModel!.imageUrl =
-                                        _photoNotifier!.imageUrl;
-                                  },
-                                ),
+                                if(_imageFile != null){
+                                  await _photoNotifier!.uploadImageToFirebase(
+                                    _imageFile!,
+                                    _userNotifier!.currentUser!.profile!.userId,
+                                    _nameController.text,
+                                        () {
+                                      widget.petModel!.imageUrl =
+                                          _photoNotifier!.imageUrl;
+                                    },
+                                  ),
+                                },
                                 await _petNotifier.addPet(createPetModel()),
                                 Navigator.of(context).pop(),
                               }
