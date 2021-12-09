@@ -28,12 +28,15 @@ class PetInfoItem extends StatelessWidget {
             size: 28.0,
             color: Colors.black,
           ),
-          Text(
-            text,
-            style: GoogleFonts.montserrat(
-              color: const Color.fromRGBO(0, 0, 0, 0.7),
-              fontSize:fontSize,
-              fontWeight: FontWeight.w500,
+          Flexible(
+            child: Text(
+              text,
+              style: GoogleFonts.montserrat(
+                color: const Color.fromRGBO(0, 0, 0, 0.7),
+                fontSize:fontSize,
+                fontWeight: FontWeight.w500,
+              ),
+              overflow: TextOverflow.ellipsis,
             ),
           )
         ],
