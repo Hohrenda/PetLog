@@ -32,60 +32,64 @@ class PetTab extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         mainAxisSize: MainAxisSize.max,
         children: [
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            mainAxisSize: MainAxisSize.max,
-            children: [
-              petModel!.imageUrl != null
-                  ? Material(
-                      child: Image.network(
-                        petModel.imageUrl!,
+          Flexible(
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                petModel!.imageUrl != null
+                    ? Material(
+                        child: Image.network(
+                          petModel.imageUrl!,
+                          width: 180.0,
+                          height: 180.0,
+                          fit: BoxFit.cover,
+                        ),
+                      )
+                    : Container(
                         width: 180.0,
                         height: 180.0,
-                        fit: BoxFit.cover,
+                        color: const Color.fromRGBO(196, 196, 196, 1),
+                        child: Stack(
+                          children: [
+                            Center(
+                              child: SvgPicture.asset('lib/assets/dog_icon.svg'),
+                            ),
+                          ],
+                        ),
                       ),
-                    )
-                  : Container(
-                      width: 180.0,
-                      height: 180.0,
-                      color: const Color.fromRGBO(196, 196, 196, 1),
-                      child: Stack(
-                        children: [
-                          Center(
-                            child: SvgPicture.asset('lib/assets/dog_icon.svg'),
-                          ),
-                        ],
+                Flexible(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    mainAxisSize: MainAxisSize.max,
+                    children: [
+                      PetInfoItem(
+                        text: namePet,
+                        iconInfo: Icons.folder_shared_outlined,
+                        fontSize: 25.0,
                       ),
-                    ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  PetInfoItem(
-                    text: namePet,
-                    iconInfo: Icons.folder_shared_outlined,
-                    fontSize: 25.0,
+                      PetInfoItem(
+                        text: breedPet,
+                        iconInfo: Icons.pets,
+                        fontSize: 18.0,
+                      ),
+                      PetInfoItem(
+                        text: DateFormat('yyyy-MM-dd').format(dateBirthPet),
+                        iconInfo: Icons.calendar_today,
+                        fontSize: 14.0,
+                      ),
+                      PetInfoItem(
+                        text: difDate,
+                        iconInfo: Icons.cake,
+                        fontSize: 14.0,
+                      ),
+                    ],
                   ),
-                  PetInfoItem(
-                    text: breedPet,
-                    iconInfo: Icons.pets,
-                    fontSize: 18.0,
-                  ),
-                  PetInfoItem(
-                    text: DateFormat('yyyy-MM-dd').format(dateBirthPet),
-                    iconInfo: Icons.calendar_today,
-                    fontSize: 14.0,
-                  ),
-                  PetInfoItem(
-                    text: difDate,
-                    iconInfo: Icons.cake,
-                    fontSize: 14.0,
-                  ),
-                ],
-              )
-            ],
+                )
+              ],
+            ),
           ),
           SizedBox(
             height: 80,

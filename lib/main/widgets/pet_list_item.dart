@@ -59,45 +59,52 @@ class PetListItem extends StatelessWidget {
                 mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        children: [
-                          const Icon(
-                            Icons.folder_shared_outlined,
-                            size: 28.0,
-                            color: Colors.black,
+                  Flexible(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Flexible(
+                          child: Row(
+                            children: [
+                              const Icon(
+                                Icons.folder_shared_outlined,
+                                size: 28.0,
+                                color: Colors.black,
+                              ),
+                              Flexible(
+                                child: Text(
+                                  petModel.name,
+                                  style: GoogleFonts.montserrat(
+                                    fontSize: 24.0,
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.black,
+                                  ),
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              )
+                            ],
                           ),
-                          Text(
-                            petModel.name,
-                            style: GoogleFonts.montserrat(
-                              fontSize: 25.0,
-                              fontWeight: FontWeight.w500,
+                        ),
+                        Row(
+                          children: [
+                            const Icon(
+                              Icons.pets,
+                              size: 28.0,
                               color: Colors.black,
                             ),
-                          )
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          const Icon(
-                            Icons.pets,
-                            size: 28.0,
-                            color: Colors.black,
-                          ),
-                          Text(
-                            petModel.breed ?? ' ',
-                            style: GoogleFonts.montserrat(
-                              fontSize: 15.0,
-                              fontWeight: FontWeight.w600,
-                              color: const Color.fromRGBO(0, 0, 0, 0.7),
-                            ),
-                          )
-                        ],
-                      ),
-                    ],
+                            Text(
+                              petModel.breed ?? ' ',
+                              style: GoogleFonts.montserrat(
+                                fontSize: 15.0,
+                                fontWeight: FontWeight.w600,
+                                color: const Color.fromRGBO(0, 0, 0, 0.7),
+                              ),
+                            )
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                   Column(
                     children: [
