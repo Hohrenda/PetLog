@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -42,51 +43,67 @@ class _GalleryTabState extends State<GalleryTab> {
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             List<String> galleryUrls =
-                List.from(snapshot.data!.data()!['galleryUrls']);
+                List.from(snapshot.data!.data()!['galleryUrls'] ?? []);
             return Padding(
               padding: const EdgeInsets.all(17.0),
               child: GridView.builder(
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    childAspectRatio: (1 / .7),
-                    crossAxisSpacing: 10.0,
-                    mainAxisSpacing: 10.0,
-                  ),
-                  itemCount: galleryUrls.length + 1,
-                  itemBuilder: (context, index) {
-                    if (index != galleryUrls.length) {
-                      return GalleryItem(
-                        onLongPress: () => {},
-                        imageUrl: galleryUrls[index],
-                      );
-                    } else {
-                      return AddPhotoButton(
-                        onTap: () async {
-                          final temp = await _photoNotifier!.pickMultipleImages();
-                          setState(() {
-                            _imageFiles = temp;
-                          });
-                          await _photoNotifier!.uploadMultipleImagesToFirebase(
-                            _imageFiles!,
-                            petModel.id,
-                            petModel.name,
-                            () {
-                              if (petModel.galleryUrls == null) {
-                                petModel.galleryUrls =
-                                    List<String>.filled(0, '', growable: true);
-                                petModel.galleryUrls
-                                    ?.insertAll(0, _photoNotifier!.galleryUrls);
-                              } else {
-                                petModel.galleryUrls
-                                    ?.insertAll(0, _photoNotifier!.galleryUrls);
-                              }
-                            },
-                          );
-                          await _petNotifier.updatePet(petModel);
-                        },
-                      );
-                    }
-                  }),
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  childAspectRatio: (1 / .7),
+                  crossAxisSpacing: 10.0,
+                  mainAxisSpacing: 10.0,
+                ),
+                itemCount: galleryUrls.length + 1,
+                itemBuilder: (context, index) {
+                  if (index != galleryUrls.length) {
+                    return GalleryItem(
+                      onLongPress: () => {
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return DeleteElement(
+                              onDelete: () async => {
+                                await FirebaseStorage.instance
+                                    .refFromURL(galleryUrls[index])
+                                    .delete(),
+                                petModel.galleryUrls!.removeAt(index),
+                                await _petNotifier.updatePet(petModel),
+                              },
+                            );
+                          },
+                        ),
+                      },
+                      imageUrl: galleryUrls[index],
+                    );
+                  } else {
+                    return AddPhotoButton(
+                      onTap: () async {
+                        final temp = await _photoNotifier!.pickMultipleImages();
+                        setState(() {
+                          _imageFiles = temp;
+                        });
+                        await _photoNotifier!.uploadMultipleImagesToFirebase(
+                          _imageFiles!,
+                          petModel.id,
+                          petModel.name,
+                          () {
+                            if (petModel.galleryUrls == null) {
+                              petModel.galleryUrls =
+                                  List<String>.filled(0, '', growable: true);
+                              petModel.galleryUrls
+                                  ?.insertAll(0, _photoNotifier!.galleryUrls);
+                            } else {
+                              petModel.galleryUrls
+                                  ?.insertAll(0, _photoNotifier!.galleryUrls);
+                            }
+                          },
+                        );
+                        await _petNotifier.updatePet(petModel);
+                      },
+                    );
+                  }
+                },
+              ),
             );
           } else {
             return CircularProgressIndicator();
