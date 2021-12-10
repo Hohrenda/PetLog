@@ -9,6 +9,13 @@ class PhotoNotifier extends ChangeNotifier {
   String? imageUrl;
   var galleryUrls = List<String>.filled(0, '', growable: true);
 
+  void resetPhoto(){
+    pickedFile = null;
+    pickedPhotos = null;
+    imageUrl = null;
+    notifyListeners();
+  }
+
   Future<XFile?> pickImage() async {
     pickedFile = await ImagePicker().pickImage(source: ImageSource.gallery);
     return pickedFile;

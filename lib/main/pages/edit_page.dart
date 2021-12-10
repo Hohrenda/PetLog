@@ -302,6 +302,7 @@ class _EditPageState extends State<EditPage> {
                                           _photoNotifier!.imageUrl;
                                     },
                                   ),
+                                  _photoNotifier!.resetPhoto(),
                                 },
                                 await _petNotifier.updatePet(createPetModel()),
                                 Navigator.of(context).pop(),
@@ -320,6 +321,7 @@ class _EditPageState extends State<EditPage> {
                                             _photoNotifier!.imageUrl;
                                       },
                                     ),
+                                    _photoNotifier!.resetPhoto(),
                                   },
                                 await _petNotifier.addPet(createPetModel()),
                                 Navigator.of(context).pop(),
