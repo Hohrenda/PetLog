@@ -292,15 +292,17 @@ class _EditPageState extends State<EditPage> {
                       onPressed: () async => {
                             if (widget.isEdit)
                               {
-                                await _photoNotifier!.uploadImageToFirebase(
-                                  _imageFile!,
-                                  _userNotifier!.currentUser!.profile!.userId,
-                                  _nameController.text,
-                                  () {
-                                    widget.petModel!.imageUrl =
-                                        _photoNotifier!.imageUrl;
-                                  },
-                                ),
+                                if(_imageFile != null){
+                                  await _photoNotifier!.uploadImageToFirebase(
+                                    _imageFile!,
+                                    _userNotifier!.currentUser!.profile!.userId,
+                                    _nameController.text,
+                                        () {
+                                      widget.petModel!.imageUrl =
+                                          _photoNotifier!.imageUrl;
+                                    },
+                                  ),
+                                },
                                 await _petNotifier.updatePet(createPetModel()),
                                 Navigator.of(context).pop(),
                               }
