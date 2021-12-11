@@ -4,8 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:pet_log/main/models/pet_model.dart';
 import 'package:pet_log/main/state/pet_notifier.dart';
 import 'package:pet_log/main/tabs/gallery_tab.dart';
-import 'package:pet_log/main/tabs/medicine/medicine_item_page.dart';
-import 'package:pet_log/main/tabs/medicine/medicine_tab.dart';
+import 'package:pet_log/main/tabs/medicine/medicine_routes.dart';
 import 'package:pet_log/main/tabs/pet_tab.dart';
 import 'package:provider/provider.dart';
 
@@ -78,52 +77,10 @@ class _PetPageState extends State<PetPage> {
           ),
           WillPopScope(
             onWillPop: () async => !await navigatorKey.currentState!.maybePop(),
-            child: Navigator(
-              key: navigatorKey,
-              initialRoute: 'MedicineTab',
-              onGenerateRoute: (RouteSettings settings) {
-                switch (settings.name) {
-                  case 'MedicineTab':
-                    return MaterialPageRoute(
-                      builder: (context) => MedicineTab(),
-                      settings: settings,
-                    );
-                  case 'MedicineDocumentsItemPage':
-                    return MaterialPageRoute(
-                      builder: (context) => MedicineItemPage(),
-                      settings: settings,
-                    );
-                  case 'MedicineAnalyzesItemPage':
-                    return MaterialPageRoute(
-                      builder: (context) => MedicineItemPage(),
-                      settings: settings,
-                    );
-                  case 'MedicineSurgeriesItemPage':
-                    return MaterialPageRoute(
-                      builder: (context) => MedicineItemPage(),
-                      settings: settings,
-                    );
-                  case 'MedicineAllergiesItemPage':
-                    return MaterialPageRoute(
-                      builder: (context) => MedicineItemPage(),
-                      settings: settings,
-                    );
-                  case 'MedicineVeterinarianItemPage':
-                    return MaterialPageRoute(
-                      builder: (context) => MedicineItemPage(),
-                      settings: settings,
-                    );
-                  case 'MedicineLabtestsItemPage':
-                    return MaterialPageRoute(
-                      builder: (context) => MedicineItemPage(),
-                      settings: settings,
-                    );
-                  default:
-                    throw Exception('Invalid route');
-                }
-              },
+            child: MedicineRoutes(
+              navigatorKey: navigatorKey,
             ),
-          )
+          ),
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
