@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:pet_log/main/models/pet_model.dart';
 import 'package:pet_log/main/state/pet_notifier.dart';
 import 'package:pet_log/main/tabs/gallery_tab.dart';
+import 'package:pet_log/main/tabs/medicine_tab.dart';
 import 'package:pet_log/main/tabs/pet_tab.dart';
 import 'package:provider/provider.dart';
 
@@ -73,6 +74,7 @@ class _PetPageState extends State<PetPage> {
           Container(
             color: Colors.black,
           ),
+          MedicineTab(),
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(

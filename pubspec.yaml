@@ -36,4 +36,9 @@ flutter:
     - lib/assets/logo.svg
     - lib/assets/google_logo.svg
     - lib/assets/dog_icon.svg
-
+    - lib/assets/medicine_allergies.svg
+    - lib/assets/medicine_analyzes.svg
+    - lib/assets/medicine_documents.svg
+    - lib/assets/medicine_labtests.svg
+    - lib/assets/medicine_surgeries.svg
+    - lib/assets/medicine_veterinarian.svg
