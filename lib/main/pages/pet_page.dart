@@ -4,7 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:pet_log/main/models/pet_model.dart';
 import 'package:pet_log/main/state/pet_notifier.dart';
 import 'package:pet_log/main/tabs/gallery_tab.dart';
-import 'package:pet_log/main/tabs/medicine_tab.dart';
+import 'package:pet_log/main/tabs/medicine/medicine_routes.dart';
 import 'package:pet_log/main/tabs/pet_tab.dart';
 import 'package:provider/provider.dart';
 
@@ -18,6 +18,7 @@ class PetPage extends StatefulWidget {
 }
 
 class _PetPageState extends State<PetPage> {
+  final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
   int _selectedIndex = 0;
 
   void _onItemTapped(int index) {
@@ -74,7 +75,12 @@ class _PetPageState extends State<PetPage> {
           Container(
             color: Colors.black,
           ),
-          MedicineTab(),
+          WillPopScope(
+            onWillPop: () async => !await navigatorKey.currentState!.maybePop(),
+            child: MedicineRoutes(
+              navigatorKey: navigatorKey,
+            ),
+          ),
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
