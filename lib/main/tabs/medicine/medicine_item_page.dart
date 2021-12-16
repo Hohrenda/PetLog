@@ -2,7 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:pet_log/main/tabs/medicine/medicine_item_edit_page.dart';
 import 'package:pet_log/main/widgets/custom_add_button.dart';
+import 'package:pet_log/main/widgets/medicine_document.dart';
+import 'package:pet_log/popups/delete_element.dart';
 
 class MedicineItemPage extends StatefulWidget {
   final String itemTitle;
@@ -56,10 +59,36 @@ class _MedicineItemPageState extends State<MedicineItemPage> {
               ),
             ],
           ),
+          Padding(
+            padding: const EdgeInsets.only(bottom: 8.0),
+            child: MedicineDocument(
+              onEdit: () => {},
+              onDelete: () => {
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return DeleteElement(
+                      onDelete: () => {},
+                    );
+                  },
+                ),
+              },
+            ),
+          ),
           CustomAddButton(
             buttonText: 'Add new document',
             fontSize: 24.0,
-            onTap: () => {},
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => MedicineItemEditPage(
+                    appBarTitle: widget.itemTitle,
+                    isEdit: false,
+                  ),
+                ),
+              );
+            },
           ),
         ],
       ),
