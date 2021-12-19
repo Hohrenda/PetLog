@@ -24,6 +24,7 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage> {
   UserNotifier? userNotifier;
   PetNotifier? petNotifier;
+  Stream<List<PetModel>>? petsStream;
 
   @override
   void initState() {
@@ -37,7 +38,14 @@ class _MainPageState extends State<MainPage> {
         if (petNotifier!.petStream == null &&
             userNotifier!.currentUser!.profile != null) {
           petNotifier!
-              .loadInitialData(userNotifier!.currentUser!.profile!.userId!);
+              .loadInitialData(userNotifier!.currentUser!.profile!.userId!)
+              .whenComplete(
+                () => setState(
+                  () {
+                    petsStream = petNotifier!.petStream;
+                  },
+                ),
+              );
         }
       },
     );
@@ -97,7 +105,7 @@ class _MainPageState extends State<MainPage> {
         shrinkWrap: true,
         children: [
           StreamBuilder<List<PetModel>>(
-            stream: petNotifier!.petStream,
+            stream: petsStream,
             builder: (context, snapshot) {
               if (!snapshot.hasData) {
                 return const Padding(

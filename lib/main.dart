@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return InjectionContainer(
       child: MaterialApp(
-        title: 'Flutter Demo',
+        title: 'PetLog',
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
