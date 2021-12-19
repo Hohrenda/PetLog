@@ -35,6 +35,7 @@ class MedicineDocument extends StatelessWidget {
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisSize: MainAxisSize.max,
           children: [
             Padding(
               padding: const EdgeInsets.only(left: 8.0),
@@ -42,11 +43,15 @@ class MedicineDocument extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    documentName,
-                    style: GoogleFonts.montserrat(
-                      fontSize: 24.0,
-                      fontWeight: FontWeight.w500,
+                  SizedBox(
+                    width: 240.0,
+                    child: Text(
+                      documentName,
+                      style: GoogleFonts.montserrat(
+                        fontSize: 24.0,
+                        fontWeight: FontWeight.w500,
+                      ),
+                      overflow: TextOverflow.ellipsis,
                     ),
                   ),
                   Padding(
@@ -72,9 +77,13 @@ class MedicineDocument extends StatelessWidget {
                       const Icon(Icons.drive_file_rename_outline),
                       Padding(
                         padding: const EdgeInsets.only(left: 8.0),
-                        child: Text(
-                          comments!,
-                          style: GoogleFonts.montserrat(fontSize: 16.0),
+                        child: SizedBox(
+                          width: 200.0,
+                          child: Text(
+                            comments!,
+                            style: GoogleFonts.montserrat(fontSize: 16.0),
+                            overflow: TextOverflow.ellipsis,
+                          ),
                         ),
                       ),
                     ],
