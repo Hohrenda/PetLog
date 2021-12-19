@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -29,12 +28,21 @@ class MedicineItemPage extends StatefulWidget {
 
 class _MedicineItemPageState extends State<MedicineItemPage> {
   DocumentNotifier? documentNotifier;
+  Stream<List<DocumentModel>>? documentsList;
 
   @override
   void initState() {
     super.initState();
     documentNotifier = Provider.of<DocumentNotifier>(context, listen: false);
-    documentNotifier!.loadInitialData(widget.petId!, widget.itemTitle);
+    documentNotifier!
+        .loadInitialData(widget.petId!, widget.itemTitle)
+        .whenComplete(
+          () => setState(
+            () {
+              documentsList = documentNotifier!.documentStream;
+            },
+          ),
+        );
   }
 
   @override
@@ -75,12 +83,8 @@ class _MedicineItemPageState extends State<MedicineItemPage> {
               ),
             ],
           ),
-          StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
-            stream: FirebaseFirestore.instance
-                .collection('docs')
-                .where('petId', isEqualTo: widget.petId)
-                .where('documentType', isEqualTo: widget.itemTitle)
-                .snapshots(),
+          StreamBuilder<List<DocumentModel>>(
+            stream: documentsList,
             builder: (context, snapshot) {
               if (!snapshot.hasData) {
                 return const Padding(
@@ -93,34 +97,24 @@ class _MedicineItemPageState extends State<MedicineItemPage> {
                 );
               }
               if (snapshot.hasData) {
-                final docs = snapshot.data!.docs;
                 return ListView.builder(
                   shrinkWrap: true,
-                  itemCount: docs.length,
+                  itemCount: snapshot.data!.length,
                   itemBuilder: (context, index) {
-                    final data = docs[index].data();
                     return Padding(
                       padding: const EdgeInsets.symmetric(
                           vertical: 4.0, horizontal: 16.0),
                       child: InkWell(
                         onTap: () => {},
                         child: MedicineDocument(
-                          documentName: data['name'],
-                          date: data['date'].toDate(),
-                          comments: data['comments'],
+                          documentName: snapshot.data![index].name,
+                          date: snapshot.data![index].date.toDate(),
+                          comments: snapshot.data![index].comments,
                           onEdit: () => Navigator.of(context).push(
                             MaterialPageRoute(
                               builder: (_) => MedicineItemEditPage(
                                 documentType: widget.itemTitle,
-                                documentModel: DocumentModel(
-                                  petId: data['petId'],
-                                  name: data['name'],
-                                  date: data['date'],
-                                  id: docs[index].id,
-                                  comments: data['comments'],
-                                  imageUrls:
-                                      List<String>.from(data['imageUrls']),
-                                ),
+                                documentModel: snapshot.data![index],
                                 isEdit: true,
                               ),
                             ),
@@ -129,7 +123,12 @@ class _MedicineItemPageState extends State<MedicineItemPage> {
                             showDialog(
                               context: context,
                               builder: (BuildContext context) {
-                                return DeleteElement(onDelete: () => {});
+                                return DeleteElement(
+                                  onDelete: () async => {
+                                    await documentNotifier!
+                                        .deleteDocument(snapshot.data![index]),
+                                  },
+                                );
                               },
                             ),
                           },
