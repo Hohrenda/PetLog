@@ -22,7 +22,6 @@ class _MedicineTabState extends State<MedicineTab> {
   @override
   Widget build(BuildContext context) {
     var entryList = medicineItems.entries.toList();
-
     return GridView.builder(
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
