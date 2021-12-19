@@ -99,38 +99,41 @@ class _MedicineItemPageState extends State<MedicineItemPage> {
                   itemCount: docs.length,
                   itemBuilder: (context, index) {
                     final data = docs[index].data();
-                    return InkWell(
-                      onTap: () => {},
-                      child: MedicineDocument(
-                        documentName: data['name'],
-                        date: data['date'].toDate(),
-                        comments: data['comments'],
-                        onEdit: () => Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (_) => MedicineItemEditPage(
-                              documentType: widget.itemTitle,
-                              documentModel: DocumentModel(
-                                petId: data['petId'],
-                                name: data['name'],
-                                date: data['date'],
-                                id: docs[index].id,
-                                comments: data['comments'],
-                                imageUrls: List<String>.from(data['imageUrls']),
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 4.0, horizontal: 16.0),
+                      child: InkWell(
+                        onTap: () => {},
+                        child: MedicineDocument(
+                          documentName: data['name'],
+                          date: data['date'].toDate(),
+                          comments: data['comments'],
+                          onEdit: () => Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (_) => MedicineItemEditPage(
+                                documentType: widget.itemTitle,
+                                documentModel: DocumentModel(
+                                  petId: data['petId'],
+                                  name: data['name'],
+                                  date: data['date'],
+                                  id: docs[index].id,
+                                  comments: data['comments'],
+                                  imageUrls:
+                                      List<String>.from(data['imageUrls']),
+                                ),
+                                isEdit: true,
                               ),
-                              isEdit: true,
                             ),
                           ),
+                          onDelete: () => {
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return DeleteElement(onDelete: () => {});
+                              },
+                            ),
+                          },
                         ),
-                        onDelete: () => {
-                          showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return DeleteElement(
-                                onDelete: () => {}
-                              );
-                            },
-                          ),
-                        },
                       ),
                     );
                   },
@@ -139,15 +142,19 @@ class _MedicineItemPageState extends State<MedicineItemPage> {
               return const Text('');
             },
           ),
-          CustomAddButton(
-            buttonText: 'Add new document',
-            fontSize: 24.0,
-            onTap: () => Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => MedicineItemEditPage(
-                  documentType: widget.itemTitle,
-                  isEdit: false,
+          Padding(
+            padding:
+                const EdgeInsets.symmetric(vertical: 4.0, horizontal: 16.0),
+            child: CustomAddButton(
+              buttonText: 'Add new document',
+              fontSize: 24.0,
+              onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => MedicineItemEditPage(
+                    documentType: widget.itemTitle,
+                    isEdit: false,
+                  ),
                 ),
               ),
             ),
