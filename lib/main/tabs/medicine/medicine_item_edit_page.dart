@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -7,6 +8,7 @@ import 'package:intl/intl.dart';
 import 'package:pet_log/auth/widgets/custom_button.dart';
 import 'package:pet_log/auth/widgets/custom_text_field.dart';
 import 'package:pet_log/main/models/document_model.dart';
+import 'package:pet_log/main/models/pet_model.dart';
 import 'package:pet_log/main/state/document_notifier.dart';
 import 'package:pet_log/main/state/pet_notifier.dart';
 import 'package:pet_log/main/state/photo_notifier.dart';
@@ -70,8 +72,7 @@ class _MedicineItemEditPageState extends State<MedicineItemEditPage> {
       _selectedDate = databaseDate;
       _dateController.text = DateFormat('yyyy-MM-dd').format(databaseDate);
       _commentsController.text = widget.documentModel!.comments ?? '';
-    }
-    else {
+    } else {
       widget.documentModel = DocumentModel(
         name: '',
         petId: '',
@@ -94,7 +95,12 @@ class _MedicineItemEditPageState extends State<MedicineItemEditPage> {
 
   @override
   Widget build(BuildContext context) {
-    DocumentNotifier _documentNotifier = Provider.of<DocumentNotifier>(context, listen: false);
+    final PetModel? petModel =
+        Provider.of<PetNotifier>(context, listen: false).currentPet;
+    DocumentNotifier _documentNotifier =
+        Provider.of<DocumentNotifier>(context, listen: false);
+    final DocumentModel? documentModel =
+        _documentNotifier.currentDocument = widget.documentModel;
     return Scaffold(
       appBar: EditPageAppBar(title: widget.documentType!),
       body: SingleChildScrollView(
@@ -153,9 +159,22 @@ class _MedicineItemEditPageState extends State<MedicineItemEditPage> {
                     InkWell(
                       onTap: () async {
                         final temp = await _photoNotifier!.pickMultipleImages();
-                        setState(() {
-                          _imageFiles = temp;
-                        });
+                        setState(
+                          () {
+                            _imageFiles = temp;
+                          },
+                        );
+                        await _photoNotifier!.uploadMedicineImagesToFirebase(
+                          _imageFiles!,
+                          petModel!.id,
+                          petModel.name,
+                          documentModel!.name,
+                          () {
+                            documentModel.imageUrls!
+                                .insertAll(0, _photoNotifier!.medicineUrls);
+                          },
+                        );
+                        await _documentNotifier.updateDocument(documentModel);
                       },
                       child: Column(
                         children: [
@@ -180,33 +199,71 @@ class _MedicineItemEditPageState extends State<MedicineItemEditPage> {
                 thickness: 1.0,
                 color: Colors.black,
               ),
-              MedicineItemPhotoAttachment(
-                onDelete: () => {
-                  showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return DeleteElement(
-                        onDelete: () => {},
-                      );
+              widget.isEdit
+                  ? StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
+                    stream: FirebaseFirestore.instance
+                        .collection('docs')
+                        .doc('${widget.documentModel!.id}')
+                        .snapshots(),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        return ListView.builder(
+                          physics: const NeverScrollableScrollPhysics(),
+                          shrinkWrap: true,
+                          itemCount: documentModel!.imageUrls!.length,
+                          itemBuilder: (context, index) {
+                            return Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 8.0),
+                              child: MedicineItemPhotoAttachment(
+                                imageUrl:
+                                    documentModel.imageUrls![index],
+                                onDelete: () => {
+                                  showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return DeleteElement(
+                                        onDelete: () async => {
+                                          await FirebaseStorage.instance
+                                              .refFromURL(documentModel
+                                                  .imageUrls![index])
+                                              .delete(),
+                                          documentModel.imageUrls!
+                                              .removeAt(index),
+                                          await _documentNotifier
+                                              .updateDocument(
+                                                  documentModel),
+                                        },
+                                      );
+                                    },
+                                  ),
+                                },
+                              ),
+                            );
+                          },
+                        );
+                      }
+                      return const CircularProgressIndicator();
                     },
-                  ),
-                },
-              ),
+                  )
+                  : const Text(''),
               Center(
                 child: Padding(
                   padding: const EdgeInsets.only(top: 12.0, bottom: 12.0),
                   child: CustomButton(
                     onPressed: () async => {
-                      if (widget.isEdit){
-                        await _documentNotifier
-                            .updateDocument(createDocumentModel()),
-                        Navigator.of(context).pop(),
-                      }
-                      else {
-                        await _documentNotifier
-                            .addDocument(createDocumentModel()),
-                        Navigator.of(context).pop(),
-                      }
+                      if (widget.isEdit)
+                        {
+                          await _documentNotifier
+                              .updateDocument(createDocumentModel()),
+                          Navigator.of(context).pop(),
+                        }
+                      else
+                        {
+                          await _documentNotifier
+                              .addDocument(createDocumentModel()),
+                          Navigator.of(context).pop(),
+                        }
                     },
                     buttonText: widget.isEdit ? 'Save' : 'Add document',
                     fontSize: 24.0,

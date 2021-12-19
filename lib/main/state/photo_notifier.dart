@@ -8,6 +8,7 @@ class PhotoNotifier extends ChangeNotifier {
   List<XFile>? pickedPhotos;
   String? imageUrl;
   var galleryUrls = List<String>.filled(0, '', growable: true);
+  var medicineUrls = List<String>.filled(0, '', growable: true);
 
   void resetPhoto(){
     pickedFile = null;
@@ -49,5 +50,20 @@ class PhotoNotifier extends ChangeNotifier {
     }
     setState();
     galleryUrls = [];
+  }
+
+  Future<String?> uploadMedicineImagesToFirebase(List<XFile> imageFiles,
+      String? petId, String? petName, String documentType, VoidCallback setState) async {
+    FirebaseStorage storage = FirebaseStorage.instance;
+    for (var imageFile in imageFiles) {
+      Reference ref = storage
+          .ref()
+          .child("${petId}_${imageFile.name}_${petName}_${documentType}_documentPic.jpg");
+      UploadTask uploadTask = ref.putFile(File(imageFile.path));
+      await uploadTask.whenComplete(() => null);
+      medicineUrls.add(await ref.getDownloadURL());
+    }
+    setState();
+    medicineUrls = [];
   }
 }

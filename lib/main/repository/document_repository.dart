@@ -44,8 +44,6 @@ class DocumentRepository {
   Stream<List<DocumentModel>>? getAllDocuments(
       String petId, String documentType) {
     try {
-      print(petId);
-      print(documentType);
       return collectionPath
           .where('documentType', isEqualTo: documentType)
           .where('petId', isEqualTo: petId)
