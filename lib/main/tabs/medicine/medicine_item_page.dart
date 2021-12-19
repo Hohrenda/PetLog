@@ -101,38 +101,37 @@ class _MedicineItemPageState extends State<MedicineItemPage> {
                   shrinkWrap: true,
                   itemCount: snapshot.data!.length,
                   itemBuilder: (context, index) {
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 4.0, horizontal: 16.0),
-                      child: InkWell(
-                        onTap: () => {},
-                        child: MedicineDocument(
-                          documentName: snapshot.data![index].name,
-                          date: snapshot.data![index].date.toDate(),
-                          comments: snapshot.data![index].comments,
-                          onEdit: () => Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (_) => MedicineItemEditPage(
-                                documentType: widget.itemTitle,
-                                documentModel: snapshot.data![index],
-                                isEdit: true,
-                              ),
+                    return InkWell(
+                      onTap: () => {},
+                      child: MedicineDocument(
+                        documentName: snapshot.data![index].name,
+                        date: snapshot.data![index].date.toDate(),
+                        comments: snapshot.data![index].comments,
+                        attachmentsCount: snapshot
+                            .data![index].imageUrls!.length
+                            .toString(),
+                        onEdit: () => Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (_) => MedicineItemEditPage(
+                              documentType: widget.itemTitle,
+                              documentModel: snapshot.data![index],
+                              isEdit: true,
                             ),
                           ),
-                          onDelete: () => {
-                            showDialog(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return DeleteElement(
-                                  onDelete: () async => {
-                                    await documentNotifier!
-                                        .deleteDocument(snapshot.data![index]),
-                                  },
-                                );
-                              },
-                            ),
-                          },
                         ),
+                        onDelete: () => {
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return DeleteElement(
+                                onDelete: () async => {
+                                  await documentNotifier!
+                                      .deleteDocument(snapshot.data![index]),
+                                },
+                              );
+                            },
+                          ),
+                        },
                       ),
                     );
                   },
