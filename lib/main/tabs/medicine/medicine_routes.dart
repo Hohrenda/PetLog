@@ -1,5 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:pet_log/main/models/pet_model.dart';
+import 'package:pet_log/main/state/pet_notifier.dart';
+import 'package:provider/provider.dart';
 
 import 'medicine_item_page.dart';
 import 'medicine_tab.dart';
@@ -12,6 +15,9 @@ class MedicineRoutes extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final PetModel? petModel =
+        Provider.of<PetNotifier>(context, listen: false).currentPet;
+    final String? petId = petModel!.id;
     return Navigator(
       key: navigatorKey,
       initialRoute: 'MedicineTab',
@@ -27,6 +33,7 @@ class MedicineRoutes extends StatelessWidget {
               builder: (context) => MedicineItemPage(
                 itemIconAsset: 'lib/assets/medicine_documents.svg',
                 itemTitle: 'Documents',
+                petId: petId,
               ),
               settings: settings,
             );
@@ -35,6 +42,7 @@ class MedicineRoutes extends StatelessWidget {
               builder: (context) => MedicineItemPage(
                 itemIconAsset: 'lib/assets/medicine_analyzes.svg',
                 itemTitle: 'Analyzes',
+                petId: petId,
               ),
               settings: settings,
             );
@@ -43,6 +51,7 @@ class MedicineRoutes extends StatelessWidget {
               builder: (context) => MedicineItemPage(
                 itemIconAsset: 'lib/assets/medicine_surgeries.svg',
                 itemTitle: 'Surgeries',
+                petId: petId,
               ),
               settings: settings,
             );
@@ -51,6 +60,7 @@ class MedicineRoutes extends StatelessWidget {
               builder: (context) => MedicineItemPage(
                 itemIconAsset: 'lib/assets/medicine_allergies.svg',
                 itemTitle: 'Allergies',
+                petId: petId,
               ),
               settings: settings,
             );
@@ -59,6 +69,7 @@ class MedicineRoutes extends StatelessWidget {
               builder: (context) => MedicineItemPage(
                 itemIconAsset: 'lib/assets/medicine_veterinarian.svg',
                 itemTitle: 'Veterinarian',
+                petId: petId,
               ),
               settings: settings,
             );
@@ -67,6 +78,7 @@ class MedicineRoutes extends StatelessWidget {
               builder: (context) => MedicineItemPage(
                 itemIconAsset: 'lib/assets/medicine_labtests.svg',
                 itemTitle: 'Lab. tests',
+                petId: petId,
               ),
               settings: settings,
             );

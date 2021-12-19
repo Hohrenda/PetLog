@@ -1,15 +1,22 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 
 class MedicineDocument extends StatelessWidget {
+  final String documentName;
   final VoidCallback onEdit;
   final VoidCallback onDelete;
+  final DateTime? date;
+  final String? comments;
 
   const MedicineDocument({
     Key? key,
     required this.onEdit,
     required this.onDelete,
+    required this.documentName,
+    this.date,
+    this.comments,
   }) : super(key: key);
 
   @override
@@ -32,7 +39,7 @@ class MedicineDocument extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Passport',
+                  documentName,
                   style: GoogleFonts.montserrat(
                     fontSize: 24.0,
                     fontWeight: FontWeight.w500,
@@ -49,7 +56,7 @@ class MedicineDocument extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.only(left: 8.0),
                         child: Text(
-                          '19/10/2021',
+                          DateFormat('yyyy-MM-dd').format(date!),
                           style: GoogleFonts.montserrat(fontSize: 16.0),
                         ),
                       ),
@@ -62,7 +69,7 @@ class MedicineDocument extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.only(left: 8.0),
                       child: Text(
-                        'Comments',
+                        comments!,
                         style: GoogleFonts.montserrat(fontSize: 16.0),
                       ),
                     ),
