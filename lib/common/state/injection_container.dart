@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:pet_log/auth/state/user_notifier.dart';
 import 'package:pet_log/main/state/document_notifier.dart';
+import 'package:pet_log/main/state/event_notifier.dart';
 import 'package:pet_log/main/state/pet_notifier.dart';
 import 'package:pet_log/main/state/photo_notifier.dart';
 import 'package:provider/provider.dart';
@@ -22,6 +23,7 @@ class _InjectionContainerState extends State<InjectionContainer> {
   PetNotifier? _petNotifier;
   PhotoNotifier? _photoNotifier;
   DocumentNotifier? _documentNotifier;
+  EventNotifier? _eventNotifier;
 
   @override
   void initState() {
@@ -35,6 +37,7 @@ class _InjectionContainerState extends State<InjectionContainer> {
     _petNotifier = PetNotifier();
     _photoNotifier = PhotoNotifier();
     _documentNotifier = DocumentNotifier();
+    _eventNotifier = EventNotifier();
   }
 
   void _createSubscriptions() {
@@ -51,6 +54,7 @@ class _InjectionContainerState extends State<InjectionContainer> {
         ChangeNotifierProvider<PetNotifier>.value(value: _petNotifier!),
         ChangeNotifierProvider<PhotoNotifier>.value(value: _photoNotifier!),
         ChangeNotifierProvider<DocumentNotifier>.value(value: _documentNotifier!),
+        ChangeNotifierProvider<EventNotifier>.value(value: _eventNotifier!),
       ],
       child: widget.child,
     );

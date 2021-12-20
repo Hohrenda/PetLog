@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class PetModel {
@@ -44,8 +42,6 @@ class PetModel {
       comments: json['comments'],
     );
   }
-
-
 
   Map<String, dynamic> toJson() {
     return {
