@@ -7,7 +7,7 @@ class DocumentModel {
   final String name;
   final Timestamp date;
   final String? comments;
-  final List<String>? imageUrls;
+  final List<String>? fileUrls;
 
   DocumentModel({
     this.id,
@@ -16,7 +16,7 @@ class DocumentModel {
     required this.name,
     required this.date,
     this.comments,
-    this.imageUrls = const [],
+    this.fileUrls = const [],
   });
 
   factory DocumentModel.fromJson(Map<String, dynamic> json, String id) {
@@ -27,7 +27,7 @@ class DocumentModel {
       name: json['name'],
       date: json['date'],
       comments: json['comments'],
-      imageUrls: List.from(json['imageUrls']),
+      fileUrls: List.from(json['fileUrls']),
     );
   }
 
@@ -40,7 +40,7 @@ class DocumentModel {
       'name': name,
       'date': date,
       'comments': comments,
-      'imageUrls': imageUrls,
+      'fileUrls': fileUrls,
     };
   }
 
@@ -54,7 +54,7 @@ class DocumentModel {
     String? name,
     Timestamp? date,
     String? comments,
-    List<String>? imageUrls,
+    List<String>? fileUrls,
   }) {
     return DocumentModel(
       petId: petId ?? this.petId,
@@ -62,12 +62,12 @@ class DocumentModel {
       name: name ?? this.name,
       date: date ?? this.date,
       comments: comments ?? this.comments,
-      imageUrls: imageUrls ?? this.imageUrls,
+      fileUrls: fileUrls ?? this.fileUrls,
     );
   }
 
   @override
   String toString() {
-    return '[petId: $petId, documentType: $documentType, name: $name, date: $date, comments: $comments, imageUrls: $imageUrls]';
+    return '[petId: $petId, documentType: $documentType, name: $name, date: $date, comments: $comments, fileUrls: $fileUrls]';
   }
 }

@@ -12,6 +12,7 @@ import 'package:pet_log/main/models/pet_model.dart';
 import 'package:pet_log/main/state/pet_notifier.dart';
 import 'package:pet_log/main/state/photo_notifier.dart';
 import 'package:pet_log/main/widgets/custom_drop_down.dart';
+import 'package:pet_log/main/widgets/edit_page_app_bar.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
 
@@ -103,41 +104,8 @@ class _EditPageState extends State<EditPage> {
   Widget build(BuildContext context) {
     PetNotifier _petNotifier = Provider.of<PetNotifier>(context, listen: false);
     return Scaffold(
-      appBar: AppBar(
-        elevation: 0.0,
-        toolbarHeight: 66.0,
-        leading: IconButton(
-          padding: const EdgeInsets.only(left: 8.0),
-          icon: const Icon(
-            Icons.arrow_back_rounded,
-            color: Colors.black,
-            size: 40.0,
-          ),
-          onPressed: () => Navigator.of(context).pop(),
-        ),
-        title: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Text(
-              widget.isEdit ? widget.petModel!.name : 'New pet',
-              style: GoogleFonts.montserrat(
-                color: Colors.black,
-                fontSize: 27.0,
-                fontWeight: FontWeight.w500,
-              ),
-            ),
-            Text(
-              'edit',
-              style: GoogleFonts.montserrat(
-                color: Colors.black,
-                fontSize: 20.0,
-                fontWeight: FontWeight.normal,
-              ),
-            ),
-          ],
-        ),
-        backgroundColor: const Color.fromRGBO(255, 120, 63, 1),
+      appBar: EditPageAppBar(
+        title: widget.isEdit ? widget.petModel!.name : 'New pet',
       ),
       body: SingleChildScrollView(
         child: Padding(
