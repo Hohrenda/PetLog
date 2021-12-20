@@ -1,8 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:pet_log/main/models/document_model.dart';
 import 'package:pet_log/main/models/event_model.dart';
 
-class DocumentRepository {
+class EventRepository {
   final _documentCollection = 'events';
 
   CollectionReference get collectionPath {
@@ -33,10 +32,10 @@ class DocumentRepository {
     }
   }
 
-  Future<DocumentModel?> getEvent(String documentId) async {
+  Future<EventModel?> getEvent(String documentId) async {
     try {
       final documentSnapshot = await collectionPath.doc(documentId).get();
-      return DocumentModel.fromDocument(documentSnapshot);
+      return EventModel.fromDocument(documentSnapshot);
     } catch (error) {
       print('Document deletion error - $error');
     }
