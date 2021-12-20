@@ -6,7 +6,6 @@ class PetModel {
   final String name;
   String? imageUrl;
   List<String>? galleryUrls;
-  List<String>? eventIds;
   final String type;
   final String? gender;
   final String? breed;
@@ -23,7 +22,6 @@ class PetModel {
     this.gender,
     this.imageUrl,
     this.galleryUrls = const [],
-    this.eventIds = const [],
     this.breed,
     this.color,
     this.comments,
@@ -36,7 +34,6 @@ class PetModel {
       name: json['name'],
       imageUrl: json['imageUrl'],
       galleryUrls: List.from(json['galleryUrls']),
-      eventIds: List.from(json['eventIds']),
       type: json['type'],
       date: json['date'],
       gender: json['gender'],
@@ -52,7 +49,6 @@ class PetModel {
       'name': name,
       'imageUrl': imageUrl,
       'galleryUrls': galleryUrls,
-      'eventIds': eventIds,
       'type': type,
       'date': date,
       'gender': gender,
@@ -71,7 +67,6 @@ class PetModel {
     String? ownerId,
     String? imageUrl,
     List<String>? galleryUrls,
-    List<String>? eventIds,
     String? name,
     String? type,
     String? gender,
@@ -86,7 +81,6 @@ class PetModel {
       name: name ?? this.name,
       imageUrl: imageUrl ?? this.imageUrl,
       galleryUrls: galleryUrls ?? this.galleryUrls,
-      eventIds: eventIds ?? this.eventIds,
       type: type ?? this.type,
       gender: gender ?? this.gender,
       breed: breed ?? this.breed,
@@ -98,6 +92,6 @@ class PetModel {
 
   @override
   String toString() {
-    return '[id: $id, ownerId: $ownerId, name: $name, imageUrl: $imageUrl, galleryUrls: $galleryUrls, eventIds: $eventIds, type: $type, gender: $gender, breed: $breed, date: $date, color: $color, comments: $comments]';
+    return '[id: $id, ownerId: $ownerId, name: $name, imageUrl: $imageUrl, galleryUrls: $galleryUrls, type: $type, gender: $gender, breed: $breed, date: $date, color: $color, comments: $comments]';
   }
 }
