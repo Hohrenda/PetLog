@@ -108,7 +108,7 @@ class _MedicineItemPageState extends State<MedicineItemPage> {
                         date: snapshot.data![index].date.toDate(),
                         comments: snapshot.data![index].comments,
                         attachmentsCount: snapshot
-                            .data![index].imageUrls!.length
+                            .data![index].fileUrls!.length
                             .toString(),
                         onEdit: () => Navigator.of(context).push(
                           MaterialPageRoute(
