@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -5,9 +6,16 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:pet_log/auth/widgets/custom_button.dart';
 import 'package:pet_log/auth/widgets/custom_text_field.dart';
+import 'package:pet_log/main/models/event_model.dart';
+import 'package:pet_log/main/state/event_notifier.dart';
+import 'package:pet_log/main/state/pet_notifier.dart';
+import 'package:provider/provider.dart';
 
 class AddEvent extends StatefulWidget {
-  const AddEvent({Key? key}) : super(key: key);
+  final bool isEdit;
+  EventModel? eventModel;
+
+  AddEvent({Key? key, required this.isEdit, this.eventModel}) : super(key: key);
 
   @override
   _AddEventState createState() => _AddEventState();
@@ -34,12 +42,42 @@ class _AddEventState extends State<AddEvent> {
   String? selectedEvent;
   final TextEditingController _dateController = TextEditingController();
   DateTime? _selectedDate;
+  EventNotifier? _eventNotifier;
+  PetNotifier? _petNotifier;
 
   @override
   void initState() {
     super.initState();
     selectedIcon = eventIcons[0];
     selectedEvent = eventNames[0];
+    _eventNotifier = Provider.of<EventNotifier>(context, listen: false);
+    _petNotifier = Provider.of<PetNotifier>(context, listen: false);
+
+    if(widget.isEdit){
+      DateTime databaseDate = widget.eventModel!.date.toDate();
+      _selectedDate = databaseDate;
+      _dateController.text = DateFormat('yyyy-MM-dd').format(databaseDate);
+      selectedEvent = widget.eventModel!.name;
+      selectedIcon = widget.eventModel!.svgIcon;
+    }
+    else {
+      widget.eventModel = EventModel(
+        petId: _petNotifier!.currentPet!.id,
+        name: '',
+        date: Timestamp.now(),
+        svgIcon: '',
+      );
+    }
+  }
+
+  EventModel createEventModel() {
+    return EventModel(
+      petId: _petNotifier!.currentPet!.id,
+      id: widget.eventModel!.id,
+      name: selectedEvent!,
+      date: Timestamp.fromDate(_selectedDate!),
+      svgIcon: selectedIcon!,
+    );
   }
 
   @override
@@ -55,7 +93,7 @@ class _AddEventState extends State<AddEvent> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  'Add new event',
+                  widget.isEdit ? widget.eventModel!.name : 'Add new event',
                   style: GoogleFonts.montserrat(
                     fontSize: 24.0,
                     fontWeight: FontWeight.bold,
@@ -126,7 +164,16 @@ class _AddEventState extends State<AddEvent> {
                   ),
                 ),
                 CustomButton(
-                    onPressed: () => Navigator.pop(context, 'OK'),
+                    onPressed: () async => {
+                      if(widget.isEdit){
+                        _eventNotifier!.updateEvent(createEventModel()),
+                        Navigator.of(context).pop(),
+                      }
+                      else{
+                        await _eventNotifier!.addEvent(createEventModel()),
+                        Navigator.of(context).pop(),
+                      }
+                    },
                     buttonText: 'Save',
                     fontSize: 14)
               ],
